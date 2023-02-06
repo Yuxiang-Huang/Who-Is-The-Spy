@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.SetParent(GameObject.Find("PlayerCanvas").transform);
         transform.localScale = new Vector3(1, 1, 1);
 
+        votingBtn.gameObject.SetActive(false);
+
         createList();
         generatePhrase();
     }
@@ -36,12 +38,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         allPhrases.Add("Sandwich");
     }
 
+
     public void vote()
     {
-        if (!PV.IsMine) return;
-
-        agreeBtn.gameObject.SetActive(true);
-        disagreeBtn.gameObject.SetActive(true);
+        PV.RPC("votingButtons", RpcTarget.AllBuffered);
 
         PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
@@ -84,14 +84,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            votingBtn.gameObject.SetActive(true);
+            //votingBtn.gameObject.SetActive(true);
             displayPhrase.gameObject.SetActive(true);
         }
         else
         {
-            votingBtn.gameObject.SetActive(false);
+            //votingBtn.gameObject.SetActive(false);
             displayPhrase.gameObject.SetActive(false);
         }
+    }
+
+    [PunRPC]
+    void votingButtons()
+    {
+        if (!PV.IsMine) return;
+
+        agreeBtn.gameObject.SetActive(true);
+        disagreeBtn.gameObject.SetActive(true);
     }
 
     [PunRPC]
