@@ -15,12 +15,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     List<string> allPhrases = new List<string>();
 
-    int revealTextcountDown = 0;
-
     //need to sync
-    public int cardNum;
     public string phrase;
-
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI displayPhrase;
 
@@ -29,10 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
 
         transform.SetParent(GameObject.Find("PlayerCanvas").transform);
-
         transform.localScale = new Vector3(1, 1, 1);
-
-        cardNum = 5;
 
         createList();
         generatePhrase();
@@ -40,85 +33,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void createList()
     {
-        //not do things
-        allPhrases.Add("Not speak for 10 seconds");
-        allPhrases.Add("Not move for 10 seconds");
-        allPhrases.Add("Talk for 5 seconds");
-
-        //look
-        allPhrases.Add("Look Up");
-        allPhrases.Add("Look Down");
-
-        //do
-        allPhrases.Add("Laugh");
-        allPhrases.Add("Help");
-        allPhrases.Add("Hesitate");
-        allPhrases.Add("Recall");
-        allPhrases.Add("Any two body parts touching");
-        allPhrases.Add("Hold anything");
-        allPhrases.Add("Make any gesture");
-        allPhrases.Add("Apologize");
-
-        //say
-        allPhrases.Add("Ask");
-        allPhrases.Add("Shout");
-
-        allPhrases.Add("Agree");
-        allPhrases.Add("Disagree");
-
-        allPhrases.Add("Reject to answer");
-
-        allPhrases.Add("Repeat");
-
-        allPhrases.Add("Compare");
-
-        allPhrases.Add("Guess the phrase");
-        allPhrases.Add("Praise");
-
-        //speak
-        allPhrases.Add("Talk about time");
-        allPhrases.Add("Talk about food");
-        allPhrases.Add("Talk about school");
-        allPhrases.Add("Talk about weather");
-        allPhrases.Add("Talk about countries");
-        allPhrases.Add("Talk about location");
-        allPhrases.Add("Talk about sport");
-        allPhrases.Add("Talk about money");
-        allPhrases.Add("Talk about science");
-        allPhrases.Add("Talk about history");
-        allPhrases.Add("Talk about mathematics");
-        allPhrases.Add("Talk about music or art");
-
-        allPhrases.Add("Say any word not in English");
-        allPhrases.Add("Say any number");
-        allPhrases.Add("Say any name");
-        allPhrases.Add("Say any food");
-        allPhrases.Add("Say any animal");
-        allPhrases.Add("Say any emotion");
-        allPhrases.Add("Say any characteristic");
-        allPhrases.Add("Say any occupation");
-        allPhrases.Add("Say any letter");
-
-        allPhrases.Add("Say 'If'");
-        allPhrases.Add("Say 'No' or 'don’t'");
-        allPhrases.Add("Say ‘Why’ or ‘How’");
-        allPhrases.Add("Say ‘Where’ or ‘When’");
-        allPhrases.Add("Say ‘Who’ or ‘What’ or ‘Which’");
-
-        allPhrases.Add("Use more than one pronoun in one sentence");
+        allPhrases.Add("Sandwich");
     }
 
-    public void reveal()
+    public void vote()
     {
         if (!PV.IsMine) return;
 
         agreeBtn.gameObject.SetActive(true);
         disagreeBtn.gameObject.SetActive(true);
-        displayPhrase.gameObject.SetActive(true);
-        revealBtn.gameObject.SetActive(false);
 
-        PV.RPC("displayRevealMessage", RpcTarget.AllBuffered, PhotonNetwork.NickName + " revealed the card. "
-            + cardNum + " cards.");
+        PV.RPC("startVotingMessage", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
 
     public void win()
