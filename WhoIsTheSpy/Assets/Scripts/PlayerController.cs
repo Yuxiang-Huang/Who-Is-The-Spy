@@ -43,25 +43,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(true);
         disagreeBtn.gameObject.SetActive(true);
 
-        PV.RPC("startVotingMessage", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
+        PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
 
-    public void win()
+    public void agree()
     {
+        agreeBtn.gameObject.SetActive(true);
+
         if (!PV.IsMine) return;
 
-        cardNum++;
-
-        generatePhrase();
+        disagreeBtn.gameObject.SetActive(false);
     }
 
-    public void lose()
+    public void disagree()
     {
+        disagreeBtn.gameObject.SetActive(true);
+
         if (!PV.IsMine) return;
 
-        cardNum--;
-
-        generatePhrase();
+        agreeBtn.gameObject.SetActive(false);
     }
 
     public void generatePhrase()
@@ -70,14 +70,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
-        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, cardNum, phrase);
+        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase);
     }
 
     [PunRPC]
-    void updatePhrase(string name, int number, string phrase)
+    void updatePhrase(string name, string phrase)
     {
         playerName.text = name;
-        displayCard.text = "Cards Left: " + number;
         displayPhrase.text = phrase;
 
         agreeBtn.gameObject.SetActive(false);
@@ -85,40 +84,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            revealBtn.gameObject.SetActive(true);
-            displayPhrase.gameObject.SetActive(false);
+            votingBtn.gameObject.SetActive(true);
+            displayPhrase.gameObject.SetActive(true);
         }
         else
         {
-            revealBtn.gameObject.SetActive(false);
-            displayPhrase.gameObject.SetActive(true);
+            votingBtn.gameObject.SetActive(false);
+            displayPhrase.gameObject.SetActive(false);
         }
     }
 
     [PunRPC]
-    void displayRevealMessage(string text)
+    void message(string text)
     {
-        RevealText.Instance.text.text = text;
-        StartCoroutine("CountDownReveal");
-    }
-
-    IEnumerator CountDownReveal()
-    {
-        RevealText.Instance.gameObject.SetActive(true);
-        revealTextcountDown++;
-
-        yield return new WaitForSeconds(3);
-
-        revealTextcountDown--;
-
-        if (revealTextcountDown == 0)
-        {
-            RevealText.Instance.gameObject.SetActive(false);
-        }
-        else
-        {
-            RevealText.Instance.gameObject.SetActive(true);
-        }
+        AllMessage.Instance.text.text = text;
     }
 }
 

@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: lose
+        m_MethodName: disagree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -188,13 +188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce157bae08b3469e844c1d3c520513e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  revealBtn: {fileID: 5383752272094184001}
-  winCard: {fileID: 3630966474691567065}
-  loseCard: {fileID: 4487355742835168014}
-  cardNum: 0
+  votingBtn: {fileID: 5383752272094184001}
+  agreeBtn: {fileID: 3630966474691567065}
+  disagreeBtn: {fileID: 4487355742835168014}
   phrase: 
   playerName: {fileID: 9156772557586540391}
-  displayCard: {fileID: 0}
   displayPhrase: {fileID: 3803182633457281029}
 --- !u!114 &4434306806922390120
 MonoBehaviour:
@@ -612,7 +610,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: win
+        m_MethodName: vote
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -880,7 +878,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: win
+        m_MethodName: agree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
