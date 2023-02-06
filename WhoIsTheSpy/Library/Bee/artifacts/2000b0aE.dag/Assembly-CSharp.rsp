@@ -327,6 +327,7 @@
 "Assets/Photon/PhotonLibs/WebSocket/SocketWebTcp.cs"
 "Assets/Photon/PhotonLibs/WebSocket/WebSocket.cs"
 "Assets/Scripts/AllMessage.cs"
+"Assets/Scripts/AllPlayers.cs"
 "Assets/Scripts/NetworkManager.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PlayerListItem.cs"

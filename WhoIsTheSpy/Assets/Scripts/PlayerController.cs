@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public bool isSpy;
 
+    public Button restartBtn;
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
@@ -31,11 +32,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         votingBtn.gameObject.SetActive(false);
 
+        AllPlayers.Instance.allPlayers.Add(this);
+
         createList();
 
         if (PhotonNetwork.IsMasterClient)
         {
             pickSpy();
+            if (PV.IsMine)
+            {
+                restartBtn.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            restartBtn.gameObject.SetActive(false);
         }
 
         generatePhrase();
@@ -44,12 +55,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void createList()
     {
         allPhrases.Add("Sandwich");
+        allPhrases.Add("Train");
+        allPhrases.Add("A");
+        allPhrases.Add("B");
     }
 
     void pickSpy()
     {
-        int spyNum = Random.Range(0, PhotonNetwork.CountOfPlayers);
+        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         PV.RPC("assignSpy", RpcTarget.AllBuffered, spyNum);
+    }
+
+    public void restart()
+    {
+        pickSpy();
+        //foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        //{
+            generatePhrase();
+        
     }
 
     public void vote()
@@ -79,7 +102,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void generatePhrase()
     {
-        if (!PV.IsMine) return;
+        //if (!PV.IsMine) return;
 
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
@@ -97,6 +120,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
         {
             isSpy = true;
+        }
+        else
+        {
+            isSpy = false;
         }
     }
 
