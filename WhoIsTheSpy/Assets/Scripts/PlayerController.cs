@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     PhotonView PV;
 
+    public bool isSpy;
+
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
@@ -30,6 +32,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         votingBtn.gameObject.SetActive(false);
 
         createList();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            pickSpy();
+        }
+
         generatePhrase();
     }
 
@@ -38,6 +46,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         allPhrases.Add("Sandwich");
     }
 
+    void pickSpy()
+    {
+        int spyNum = Random.Range(0, PhotonNetwork.CountOfPlayers);
+        PV.RPC("assignSpy", RpcTarget.AllBuffered, spyNum);
+    }
 
     public void vote()
     {
@@ -70,7 +83,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
+        if (isSpy)
+        {
+            phrase = "???";
+        }
+
         PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase);
+    }
+
+    [PunRPC]
+    void assignSpy(int spyNum)
+    {
+        if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
+        {
+            isSpy = true;
+        }
     }
 
     [PunRPC]
