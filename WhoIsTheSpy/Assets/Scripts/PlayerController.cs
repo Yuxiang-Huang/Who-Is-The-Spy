@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     PhotonView PV;
 
-    public Button revealBtn;
-    public Button winCard;
-    public Button loseCard;
+    public Button votingBtn;
+    public Button agreeBtn;
+    public Button disagreeBtn;
 
     List<string> allPhrases = new List<string>();
 
@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public string phrase;
 
     public TextMeshProUGUI playerName;
-    public TextMeshProUGUI displayCard;
     public TextMeshProUGUI displayPhrase;
 
     void Awake()
@@ -113,8 +112,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (!PV.IsMine) return;
 
-        winCard.gameObject.SetActive(true);
-        loseCard.gameObject.SetActive(true);
+        agreeBtn.gameObject.SetActive(true);
+        disagreeBtn.gameObject.SetActive(true);
         displayPhrase.gameObject.SetActive(true);
         revealBtn.gameObject.SetActive(false);
 
@@ -156,8 +155,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         displayCard.text = "Cards Left: " + number;
         displayPhrase.text = phrase;
 
-        winCard.gameObject.SetActive(false);
-        loseCard.gameObject.SetActive(false);
+        agreeBtn.gameObject.SetActive(false);
+        disagreeBtn.gameObject.SetActive(false);
 
         if (PV.IsMine)
         {
