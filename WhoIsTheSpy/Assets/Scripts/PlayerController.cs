@@ -122,11 +122,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
         {
-            isSpy = true;
+            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            {
+                cur.isSpy = true;
+            }
         }
         else
         {
-            isSpy = false;
+            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            {
+                cur.isSpy = false;
+            }
         }
     }
 
