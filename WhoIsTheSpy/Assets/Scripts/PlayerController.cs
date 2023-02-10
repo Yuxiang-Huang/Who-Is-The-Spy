@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
+using System.Runtime.ConstrainedExecution;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -32,13 +33,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         votingBtn.gameObject.SetActive(false);
 
-        AllPlayers.Instance.allPlayers.Add(this);
+        if (PV.IsMine)
+        {
+            PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, "");
+        }
 
-        createList();
+        AllPlayers.Instance.allPlayers.Add(this);
 
         if (PhotonNetwork.IsMasterClient)
         {
+            createList();
             pickSpy();
+
             if (PV.IsMine)
             {
                 restartBtn.gameObject.SetActive(true);
@@ -48,16 +54,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             restartBtn.gameObject.SetActive(false);
         }
-
-        generatePhrase();
     }
 
     void createList()
     {
-        allPhrases.Add("Sandwich");
-        allPhrases.Add("Train");
-        allPhrases.Add("A");
-        allPhrases.Add("B");
+        for (int i = 0; i < 26; i++)
+        {
+            allPhrases.Add("" + (char) (i + 'a'));
+        }
     }
 
     void pickSpy()
@@ -69,10 +73,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void restart()
     {
         pickSpy();
-        //foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
-        //{
-            generatePhrase();
-        
+            
     }
 
     public void vote()
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void generatePhrase()
     {
-        //if (!PV.IsMine) return;
+        if (!PV.IsMine) return;
 
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
@@ -111,7 +112,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             phrase = "???";
         }
 
-        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase);
+        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        {
+            cur.PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase);
+        }
     }
 
     [PunRPC]
@@ -136,16 +140,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
 
-        if (PV.IsMine)
-        {
-            //votingBtn.gameObject.SetActive(true);
-            displayPhrase.gameObject.SetActive(true);
-        }
-        else
-        {
-            //votingBtn.gameObject.SetActive(false);
-            displayPhrase.gameObject.SetActive(false);
-        }
+        //if (PV.IsMine)
+        //{
+        //    //votingBtn.gameObject.SetActive(true);
+        //    displayPhrase.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    //votingBtn.gameObject.SetActive(false);
+        //    displayPhrase.gameObject.SetActive(false);
+        //}
     }
 
     [PunRPC]
