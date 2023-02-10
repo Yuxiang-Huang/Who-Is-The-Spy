@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            PV.RPC("updateName", RpcTarget.AllBuffered, PhotonNetwork.NickName, "");
+            PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
         }
 
         AllPlayers.Instance.allPlayers.Add(this);
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
-            cur.PV.RPC("updatePhrase", RpcTarget.AllBuffered, phrase, cur.isSpy);
+            cur.PV.RPC("update", RpcTarget.AllBuffered, phrase);
         }
     }
 
@@ -131,10 +131,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void updateName(string name, string phrase)
+    void updatePhrase(string name, string phrase, bool isSpy)
     {
         playerName.text = name;
-        displayPhrase.text = phrase;
+
+        if (isSpy)
+        {
+            displayPhrase.text = "???";
+        }
+        else
+        {
+            displayPhrase.text = phrase;
+        }
 
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
@@ -152,19 +160,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void updatePhrase(string phrase, bool isSpy)
+    void update(string phrase)
     {
-        if (isSpy)
-        {
-            displayPhrase.text = "???";
-        }
-        else
-        {
-            displayPhrase.text = phrase;
-        }
+        if (! PV.IsMine) return;
 
-        agreeBtn.gameObject.SetActive(false);
-        disagreeBtn.gameObject.SetActive(false);
+        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
     }
 
     [PunRPC]
