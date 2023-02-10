@@ -28,19 +28,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         PV = GetComponent<PhotonView>();
 
+        //join the horizontal layout group
         transform.SetParent(GameObject.Find("PlayerCanvas").transform);
         transform.localScale = new Vector3(1, 1, 1);
 
-        votingBtn.gameObject.SetActive(false);
-
+        //update name
         if (PV.IsMine)
         {
             PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
         }
 
-        AllPlayers.Instance.allPlayers.Add(this);
+        AllPlayers.Instance.allPlayers.Add(this); //keep track of all players
 
-        if (PhotonNetwork.IsMasterClient)
+        //master client responsible for picking spy and starting game
+        if (PhotonNetwork.IsMasterClient) 
         {
             createList();
             pickSpy();
@@ -68,67 +69,33 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    void pickSpy()
-    {
-        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        PV.RPC("assignSpy", RpcTarget.AllBuffered, spyNum);
-    }
-
     public void restart()
     {
         pickSpy();
         generatePhrase();
     }
 
-    public void vote()
-    {
-        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
-        {
-            cur.PV.RPC("votingButtons", RpcTarget.AllBuffered);
-        }
-
-        PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
-    }
-
-    public void agree()
-    {
-        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, true, false);
-    }
-
-    public void disagree()
-    {
-        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, false, true);
-    }
-
     public void generatePhrase()
     {
         if (!PV.IsMine) return;
 
+        //pick a phrase
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
+        //ask all players to ask all clients
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
             cur.PV.RPC("update", RpcTarget.AllBuffered, phrase);
         }
     }
 
+    //update phrase if this gameobject belong to this player
     [PunRPC]
-    void assignSpy(int spyNum)
+    void update(string phrase)
     {
-        if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
-        {
-            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
-            {
-                cur.isSpy = true;
-            }
-        }
-        else
-        {
-            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
-            {
-                cur.isSpy = false;
-            }
-        }
+        if (!PV.IsMine) return;
+
+        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
     }
 
     [PunRPC]
@@ -160,12 +127,43 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    void update(string phrase)
+    #region Spy
+    void pickSpy()
     {
-        if (! PV.IsMine) return;
+        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        PV.RPC("assignSpy", RpcTarget.AllBuffered, spyNum);
+    }
 
-        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
+    [PunRPC]
+    void assignSpy(int spyNum)
+    {
+        if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
+        {
+            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            {
+                cur.isSpy = true;
+            }
+        }
+        else
+        {
+            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            {
+                cur.isSpy = false;
+            }
+        }
+    }
+    #endregion
+
+    #region Voting
+
+    public void vote()
+    {
+        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        {
+            cur.PV.RPC("votingButtons", RpcTarget.AllBuffered);
+        }
+
+        PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
 
     [PunRPC]
@@ -173,9 +171,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (!PV.IsMine) return;
 
+        //display the buttons for agree and disagree to vote
         agreeBtn.gameObject.SetActive(true);
         disagreeBtn.gameObject.SetActive(true);
+
+        //hide the button for start voting
         votingBtn.gameObject.SetActive(false);
+    }
+
+    public void agree()
+    {
+        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, true, false);
+    }
+
+    public void disagree()
+    {
+        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, false, true);
     }
 
     [PunRPC]
@@ -184,6 +195,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(agreeBool);
         disagreeBtn.gameObject.SetActive(disagreeBool);
     }
+
+    #endregion
 
     [PunRPC]
     void message(string text)
