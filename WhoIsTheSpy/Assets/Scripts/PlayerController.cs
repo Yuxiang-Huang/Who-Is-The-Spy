@@ -153,16 +153,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
 
-        //if (PV.IsMine)
-        //{
-        //    //votingBtn.gameObject.SetActive(true);
-        //    displayPhrase.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    //votingBtn.gameObject.SetActive(false);
-        //    displayPhrase.gameObject.SetActive(false);
-        //}
+        if (PV.IsMine)
+        {
+            //votingBtn.gameObject.SetActive(true);
+            displayPhrase.gameObject.SetActive(true);
+        }
+        else
+        {
+            //votingBtn.gameObject.SetActive(false);
+            displayPhrase.gameObject.SetActive(false);
+        }
     }
 
     [PunRPC]
