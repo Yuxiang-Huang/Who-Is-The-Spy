@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
+    public RawImage agreeImage;
+    public RawImage disagreeImage;
 
     List<string> allPhrases = new List<string>();
 
@@ -114,6 +116,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
+        agreeImage.gameObject.SetActive(false);
+        disagreeImage.gameObject.SetActive(false);
 
         if (PV.IsMine)
         {
@@ -181,19 +185,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void agree()
     {
+        agreeBtn.gameObject.SetActive(false);
+        disagreeBtn.gameObject.SetActive(false);
         PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, true, false);
     }
 
     public void disagree()
     {
+        agreeBtn.gameObject.SetActive(false);
+        disagreeBtn.gameObject.SetActive(false);
         PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, false, true);
     }
 
     [PunRPC]
     void updateVotingButtons(bool agreeBool, bool disagreeBool)
     {
-        agreeBtn.gameObject.SetActive(agreeBool);
-        disagreeBtn.gameObject.SetActive(disagreeBool);
+        agreeImage.gameObject.SetActive(agreeBool);
+        disagreeImage.gameObject.SetActive(disagreeBool);
     }
 
     #endregion
