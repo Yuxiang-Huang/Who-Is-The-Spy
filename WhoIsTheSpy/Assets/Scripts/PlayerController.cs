@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, "");
+            PV.RPC("updateName", RpcTarget.AllBuffered, PhotonNetwork.NickName, "");
         }
 
         AllPlayers.Instance.allPlayers.Add(this);
@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (PV.IsMine)
             {
                 restartBtn.gameObject.SetActive(true);
+            }
+            else
+            {
+                restartBtn.gameObject.SetActive(false);
             }
         }
         else
@@ -73,7 +77,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void restart()
     {
         pickSpy();
-            
+        generatePhrase();
     }
 
     public void vote()
@@ -107,14 +111,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
-        if (isSpy)
-        {
-            phrase = "???";
-        }
-
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
-            cur.PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase);
+            cur.PV.RPC("updatePhrase", RpcTarget.AllBuffered, phrase, cur.isSpy);
         }
     }
 
@@ -132,7 +131,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void updatePhrase(string name, string phrase)
+    void updateName(string name, string phrase)
     {
         playerName.text = name;
         displayPhrase.text = phrase;
@@ -150,6 +149,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //    //votingBtn.gameObject.SetActive(false);
         //    displayPhrase.gameObject.SetActive(false);
         //}
+    }
+
+    [PunRPC]
+    void updatePhrase(string phrase, bool isSpy)
+    {
+        if (isSpy)
+        {
+            displayPhrase.text = "???";
+        }
+        else
+        {
+            displayPhrase.text = phrase;
+        }
+
+        agreeBtn.gameObject.SetActive(false);
+        disagreeBtn.gameObject.SetActive(false);
     }
 
     [PunRPC]
