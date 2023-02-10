@@ -82,27 +82,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void vote()
     {
-        PV.RPC("votingButtons", RpcTarget.AllBuffered);
+        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        {
+            cur.PV.RPC("votingButtons", RpcTarget.AllBuffered);
+        }
 
         PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
 
     public void agree()
     {
-        agreeBtn.gameObject.SetActive(true);
-
-        if (!PV.IsMine) return;
-
-        disagreeBtn.gameObject.SetActive(false);
+        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, true, false);
     }
 
     public void disagree()
     {
-        disagreeBtn.gameObject.SetActive(true);
-
-        if (!PV.IsMine) return;
-
-        agreeBtn.gameObject.SetActive(false);
+        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, false, true);
     }
 
     public void generatePhrase()
@@ -155,12 +150,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            //votingBtn.gameObject.SetActive(true);
+            votingBtn.gameObject.SetActive(true);
             displayPhrase.gameObject.SetActive(true);
         }
         else
         {
-            //votingBtn.gameObject.SetActive(false);
+            votingBtn.gameObject.SetActive(false);
             displayPhrase.gameObject.SetActive(false);
         }
     }
@@ -180,6 +175,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         agreeBtn.gameObject.SetActive(true);
         disagreeBtn.gameObject.SetActive(true);
+        votingBtn.gameObject.SetActive(false);
+    }
+
+    [PunRPC]
+    void updateVotingButtons(bool agreeBool, bool disagreeBool)
+    {
+        agreeBtn.gameObject.SetActive(agreeBool);
+        disagreeBtn.gameObject.SetActive(disagreeBool);
     }
 
     [PunRPC]
