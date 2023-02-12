@@ -13,15 +13,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public bool isSpy;
 
     public Button restartBtn;
+
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
     public RawImage agreeImage;
     public RawImage disagreeImage;
+    public int agreeVotes;
+    public int disagreeVotes;
 
     List<string> allPhrases = new List<string>();
 
-    //need to sync
     public string phrase;
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI displayPhrase;
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //update name
         if (PV.IsMine)
         {
-            PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
+            PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
         }
 
         AllPlayers.Instance.allPlayers.Add(this); //keep track of all players
@@ -87,7 +89,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //ask all players to ask all clients
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
-            cur.PV.RPC("update", RpcTarget.AllBuffered, phrase);
+            cur.PV.RPC(nameof(update), RpcTarget.AllBuffered, phrase);
         }
     }
 
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (!PV.IsMine) return;
 
-        PV.RPC("updatePhrase", RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
+        PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
     }
 
     [PunRPC]
@@ -135,7 +137,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void pickSpy()
     {
         int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        PV.RPC("assignSpy", RpcTarget.AllBuffered, spyNum);
+        PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
     }
 
     [PunRPC]
@@ -164,10 +166,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
-            cur.PV.RPC("votingButtons", RpcTarget.AllBuffered);
+            cur.PV.RPC(nameof(votingButtons), RpcTarget.AllBuffered);
         }
 
-        PV.RPC("message", RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
     }
 
     [PunRPC]
@@ -187,14 +189,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
-        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, true, false);
+        PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, true, false);
     }
 
     public void disagree()
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
-        PV.RPC("updateVotingButtons", RpcTarget.AllBuffered, false, true);
+        PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, false, true);
     }
 
     [PunRPC]
@@ -202,6 +204,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         agreeImage.gameObject.SetActive(agreeBool);
         disagreeImage.gameObject.SetActive(disagreeBool);
+
+        
     }
 
     #endregion
