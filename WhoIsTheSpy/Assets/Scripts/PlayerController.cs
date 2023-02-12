@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         foreach (PlayerController cur in VotingManager.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(voteBtnSetupOwnerCall), PV.Owner);
+            cur.PV.RPC(nameof(voteBtnSetupOwnerCall), cur.PV.Owner);
         }
 
         pickSpy();
@@ -90,12 +90,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void voteBtnSetupOwnerCall()
     {
-        PV.RPC(nameof(voteBtnSetup), PV.Owner, PhotonNetwork.NickName);
+        PV.RPC(nameof(voteBtnSetup), RpcTarget.AllBuffered, PhotonNetwork.NickName, PhotonNetwork.LocalPlayer);
     }
 
     [PunRPC]
-    void voteBtnSetup(string name)
+    void voteBtnSetup(string name, Photon.Realtime.Player player)
     {
+        voteMeBtn.GetComponent<Vote>().player = player;
         voteMeBtnText.text = name;
     }
 

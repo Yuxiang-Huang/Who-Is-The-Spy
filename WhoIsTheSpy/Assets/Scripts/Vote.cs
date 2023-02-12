@@ -12,26 +12,22 @@ public class Vote : MonoBehaviour
     void Awake()
     {
         PV = GetComponent<PhotonView>();
-        player = PhotonNetwork.LocalPlayer;
     }
 
     public void voteMe()
     {
-        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered);
+        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, player);
     }
 
     [PunRPC]
-    public void castVoteSpy()
+    public void castVoteSpy(Photon.Realtime.Player votedPlayer)
     {
-        //Debug.Log(player);
-        //Debug.Log(VotingManager.Instance.spyVotes);
-
-        VotingManager.Instance.spyVotes[player]++;
+        VotingManager.Instance.spyVotes[votedPlayer]++;
         string str = "";
 
         foreach (var (key, value) in VotingManager.Instance.spyVotes)
         {
-            str += value + " : ";
+            str += key.NickName + " : " + value + ", ";
         }
 
         VotingManager.Instance.messageText.text = str;
