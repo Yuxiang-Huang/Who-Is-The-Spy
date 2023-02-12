@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         generatePhrase();
     }
 
+    #region Phrase
+
     public void generatePhrase()
     {
         if (!PV.IsMine) return;
@@ -129,6 +131,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    #endregion
+
     #region Spy
     void pickSpy()
     {
@@ -165,7 +169,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             cur.PV.RPC(nameof(votingButtons), RpcTarget.AllBuffered);
         }
 
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!");
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!", true);
     }
 
     [PunRPC]
@@ -185,7 +189,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
-        PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, true, false);
+        PV.RPC(nameof(castVote), RpcTarget.AllBuffered, true, false);
 
         checkVotes();
     }
@@ -194,40 +198,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
-        PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, false, true);
+        PV.RPC(nameof(castVote), RpcTarget.AllBuffered, false, true);
 
         checkVotes();
     }
 
-    public void checkVotes()
-    {
-        int agreeVotes = VotingManager.Instance.agreeVotes;
-        int disagreeVotes = VotingManager.Instance.disagreeVotes;
-
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " : " + disagreeVotes);
-
-        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
-        {
-            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
-            {
-                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Begin Vote!");
-            }
-            else
-            {
-                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Vote Failed!");
-            }
-        }
-    }
-
     [PunRPC]
-    void updateVotingButtons(bool agreeBool, bool disagreeBool)
+    void castVote(bool agreeBool, bool disagreeBool)
     {
         agreeImage.gameObject.SetActive(agreeBool);
         disagreeImage.gameObject.SetActive(disagreeBool);
 
         if (agreeBool)
         {
-            VotingManager.Instance.agreeVotes ++;
+            VotingManager.Instance.agreeVotes++;
         }
         if (disagreeBool)
         {
@@ -235,12 +219,69 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void checkVotes()
+    {
+        int agreeVotes = VotingManager.Instance.agreeVotes;
+        int disagreeVotes = VotingManager.Instance.disagreeVotes;
+
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " : " + disagreeVotes, false);
+
+        //if everyone voted
+        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            //count votes
+            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting!", true);
+            }
+            else
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting Failed!", true);
+            }
+
+            //reset
+            VotingManager.Instance.agreeVotes = 0;
+            VotingManager.Instance.disagreeVotes = 0;
+
+            StartCoroutine(nameof(clear));
+        }
+    }
+
+    IEnumerator clear()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        //ask the owner of each player
+        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+        {
+            cur.PV.RPC(nameof(clearVoting), cur.PV.Owner);
+        }
+    }
+
+    [PunRPC]
+    void clearVoting()
+    {
+        PV.RPC(nameof(clearImages), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void clearImages()
+    {
+        //hide the images for start voting
+        agreeImage.gameObject.SetActive(false);
+        disagreeImage.gameObject.SetActive(false);
+    }
+
     #endregion
 
     [PunRPC]
-    void message(string text)
+    void message(string text, bool countDown)
     {
         VotingManager.Instance.messageText.text = text;
+        if (countDown)
+        {
+            VotingManager.Instance.StartCoroutine("CountDown");
+        }
     }
 }
 

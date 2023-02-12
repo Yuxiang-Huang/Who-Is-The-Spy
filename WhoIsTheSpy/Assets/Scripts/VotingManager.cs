@@ -19,4 +19,11 @@ public class VotingManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    IEnumerator CountDown()
+    {
+        yield return new WaitForSeconds(3f);
+
+        messageText.text = "";
+    }
 }
