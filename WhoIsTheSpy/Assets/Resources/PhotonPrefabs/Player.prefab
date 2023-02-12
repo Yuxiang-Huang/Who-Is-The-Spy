@@ -334,7 +334,8 @@ MonoBehaviour:
   disagreeBtn: {fileID: 4487355742835168014}
   agreeImage: {fileID: 5967205830924445435}
   disagreeImage: {fileID: 4216374035970866739}
-  voteMeBtn: {fileID: 0}
+  voteMeBtn: {fileID: 5378994989123272653}
+  voteMeBtnText: {fileID: 8594237862266300879}
   phrase: 
   playerName: {fileID: 9156772557586540391}
   displayPhrase: {fileID: 3803182633457281029}
@@ -507,6 +508,7 @@ GameObject:
   - component: {fileID: 2924188046601397008}
   - component: {fileID: 5378994989123272653}
   - component: {fileID: 5758202679246872772}
+  - component: {fileID: 5107150478985203294}
   m_Layer: 5
   m_Name: Vote
   m_TagString: Untagged
@@ -641,6 +643,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4071d0281a3a94fb0aeea5bde51315e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 0}
+--- !u!114 &5107150478985203294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3223560077970075014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3779232998452397798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,7 +1268,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: vote
+        m_MethodName: vote1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

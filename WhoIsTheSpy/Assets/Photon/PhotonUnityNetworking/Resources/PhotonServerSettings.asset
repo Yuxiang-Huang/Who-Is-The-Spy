@@ -54,6 +54,11 @@ MonoBehaviour:
   - clearAll
   - clearLocal
   - startVoting
+  - castVote1
+  - castVoteSpy
+  - startVotingSpy
+  - votingButtons1
+  - votingButtonsSpy
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

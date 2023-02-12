@@ -335,6 +335,7 @@
 "Assets/Scripts/RoomManager.cs"
 "Assets/Scripts/Screen.cs"
 "Assets/Scripts/ScreenManager.cs"
+"Assets/Scripts/Vote.cs"
 "Assets/Scripts/VotingManager.cs"
 -langversion:9.0
 

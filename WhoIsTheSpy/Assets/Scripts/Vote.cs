@@ -9,14 +9,23 @@ public class Vote : MonoBehaviour
     public PhotonView PV;
     public Photon.Realtime.Player player;
 
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+        player = PhotonNetwork.LocalPlayer;
+    }
+
     public void voteMe()
     {
-        PV.RPC(nameof(castVote), RpcTarget.AllBuffered);
+        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered);
     }
 
     [PunRPC]
-    public void castVote()
+    public void castVoteSpy()
     {
+        //Debug.Log(player);
+        //Debug.Log(VotingManager.Instance.spyVotes);
+
         VotingManager.Instance.spyVotes[player]++;
         string str = "";
 
