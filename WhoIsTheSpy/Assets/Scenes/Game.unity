@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 1298398031}
   - component: {fileID: 1298398033}
   - component: {fileID: 1298398032}
-  - component: {fileID: 1298398034}
   m_Layer: 5
   m_Name: messageText
   m_TagString: Untagged
@@ -286,7 +285,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -75}
+  m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298398032
@@ -336,8 +335,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -386,19 +385,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298398030}
   m_CullTransparentMesh: 1
---- !u!114 &1298398034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298398030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b85a330b7ee41e6b5bbef00929e4db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 1298398032}
 --- !u!1 &1341729697
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,27 +495,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1438409358}
-  - component: {fileID: 1438409357}
+  - component: {fileID: 1438409359}
   m_Layer: 0
-  m_Name: AllPlayers
+  m_Name: VotingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1438409357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438409356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb6688771488e47cebf7340fd94db104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allPlayers: []
 --- !u!4 &1438409358
 Transform:
   m_ObjectHideFlags: 0
@@ -545,6 +518,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1438409359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438409356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b85a330b7ee41e6b5bbef00929e4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 1298398032}
+  allPlayers: []
+  agreeVotes: 0
+  disagreeVotes: 0
 --- !u!1 &1535874370
 GameObject:
   m_ObjectHideFlags: 0

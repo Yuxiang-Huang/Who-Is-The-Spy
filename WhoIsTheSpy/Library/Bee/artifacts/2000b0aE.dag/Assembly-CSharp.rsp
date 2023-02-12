@@ -326,7 +326,6 @@
 -r:"Library/Bee/artifacts/2000b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Photon/PhotonLibs/WebSocket/SocketWebTcp.cs"
 "Assets/Photon/PhotonLibs/WebSocket/WebSocket.cs"
-"Assets/Scripts/AllPlayers.cs"
 "Assets/Scripts/NetworkManager.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PlayerListItem.cs"

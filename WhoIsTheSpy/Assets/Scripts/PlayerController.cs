@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
         }
 
-        AllPlayers.Instance.allPlayers.Add(this); //keep track of all players
+        VotingManager.Instance.allPlayers.Add(this); //keep track of all players
 
         //master client responsible for picking spy and starting game
         if (PhotonNetwork.IsMasterClient) 
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
         //ask the owner of each player
-        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
         {
             cur.PV.RPC(nameof(update), cur.PV.Owner, phrase);
         }
@@ -141,14 +141,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[spyNum])
         {
-            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            foreach (PlayerController cur in VotingManager.Instance.allPlayers)
             {
                 cur.isSpy = true;
             }
         }
         else
         {
-            foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+            foreach (PlayerController cur in VotingManager.Instance.allPlayers)
             {
                 cur.isSpy = false;
             }
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void vote()
     {
-        foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
+        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
         {
             cur.PV.RPC(nameof(votingButtons), RpcTarget.AllBuffered);
         }
@@ -204,12 +204,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         int agreeVotes = VotingManager.Instance.agreeVotes;
         int disagreeVotes = VotingManager.Instance.disagreeVotes;
 
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " " + disagreeVotes);
-        Debug.Log(PhotonNetwork.CountOfPlayers);
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " : " + disagreeVotes);
 
-        if (agreeVotes + disagreeVotes == AllPlayers.Instance.allPlayers.Count)
+        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            if (agreeVotes > AllPlayers.Instance.allPlayers.Count / 2)
+            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
             {
                 PV.RPC(nameof(message), RpcTarget.AllBuffered, "Begin Vote!");
             }
