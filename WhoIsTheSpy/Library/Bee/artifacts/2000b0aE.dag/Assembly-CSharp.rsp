@@ -326,7 +326,6 @@
 -r:"Library/Bee/artifacts/2000b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Photon/PhotonLibs/WebSocket/SocketWebTcp.cs"
 "Assets/Photon/PhotonLibs/WebSocket/WebSocket.cs"
-"Assets/Scripts/AllMessage.cs"
 "Assets/Scripts/AllPlayers.cs"
 "Assets/Scripts/NetworkManager.cs"
 "Assets/Scripts/PlayerController.cs"
@@ -337,6 +336,7 @@
 "Assets/Scripts/RoomManager.cs"
 "Assets/Scripts/Screen.cs"
 "Assets/Scripts/ScreenManager.cs"
+"Assets/Scripts/VotingManager.cs"
 -langversion:9.0
 
 /deterministic

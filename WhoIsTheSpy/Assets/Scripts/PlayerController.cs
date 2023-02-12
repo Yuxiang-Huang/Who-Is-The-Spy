@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 using TMPro;
-using System.Runtime.ConstrainedExecution;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -19,8 +19,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Button disagreeBtn;
     public RawImage agreeImage;
     public RawImage disagreeImage;
-    public int agreeVotes;
-    public int disagreeVotes;
 
     List<string> allPhrases = new List<string>();
 
@@ -86,10 +84,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //pick a phrase
         phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
-        //ask all players to ask all clients
+        //ask the owner of each player
         foreach (PlayerController cur in AllPlayers.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(update), RpcTarget.AllBuffered, phrase);
+            cur.PV.RPC(nameof(update), cur.PV.Owner, phrase);
         }
     }
 
@@ -97,8 +95,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void update(string phrase)
     {
-        if (!PV.IsMine) return;
-
         PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase, isSpy);
     }
 
@@ -190,6 +186,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
         PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, true, false);
+
+        checkVotes();
     }
 
     public void disagree()
@@ -197,6 +195,29 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
         PV.RPC(nameof(updateVotingButtons), RpcTarget.AllBuffered, false, true);
+
+        checkVotes();
+    }
+
+    public void checkVotes()
+    {
+        int agreeVotes = VotingManager.Instance.agreeVotes;
+        int disagreeVotes = VotingManager.Instance.disagreeVotes;
+
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " " + disagreeVotes);
+        Debug.Log(PhotonNetwork.CountOfPlayers);
+
+        if (agreeVotes + disagreeVotes == AllPlayers.Instance.allPlayers.Count)
+        {
+            if (agreeVotes > AllPlayers.Instance.allPlayers.Count / 2)
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Begin Vote!");
+            }
+            else
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Vote Failed!");
+            }
+        }
     }
 
     [PunRPC]
@@ -205,7 +226,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         agreeImage.gameObject.SetActive(agreeBool);
         disagreeImage.gameObject.SetActive(disagreeBool);
 
-        
+        if (agreeBool)
+        {
+            VotingManager.Instance.agreeVotes ++;
+        }
+        if (disagreeBool)
+        {
+            VotingManager.Instance.disagreeVotes++;
+        }
     }
 
     #endregion
@@ -213,7 +241,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void message(string text)
     {
-        AllMessage.Instance.text.text = text;
+        VotingManager.Instance.messageText.text = text;
     }
 }
 
