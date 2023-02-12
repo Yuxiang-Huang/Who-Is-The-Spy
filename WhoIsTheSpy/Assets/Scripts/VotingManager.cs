@@ -14,6 +14,8 @@ public class VotingManager : MonoBehaviour
     public int agreeVotes;
     public int disagreeVotes;
 
+    public Dictionary<Photon.Realtime.Player, int> spyVotes;
+
     // Start is called before the first frame update
     void Start()
     {

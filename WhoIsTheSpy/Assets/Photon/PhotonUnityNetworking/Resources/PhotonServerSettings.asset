@@ -48,6 +48,12 @@ MonoBehaviour:
   - updateName
   - update
   - updateVotingButtons
+  - castVote
+  - clearImages
+  - clearVoting
+  - clearAll
+  - clearLocal
+  - startVoting
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

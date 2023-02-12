@@ -14,11 +14,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public Button restartBtn;
 
+    //start voting buttons
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
     public RawImage agreeImage;
     public RawImage disagreeImage;
+
+    public Button voteMeBtn;
 
     List<string> allPhrases = new List<string>();
 
@@ -41,6 +44,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         VotingManager.Instance.allPlayers.Add(this); //keep track of all players
+        voteMeBtn.GetComponent<Vote>().player = PhotonNetwork.LocalPlayer;
+        voteMeBtn.GetComponent<Vote>().PV = PV;
 
         //master client responsible for picking spy and starting game
         if (PhotonNetwork.IsMasterClient) 
@@ -118,6 +123,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         disagreeBtn.gameObject.SetActive(false);
         agreeImage.gameObject.SetActive(false);
         disagreeImage.gameObject.SetActive(false);
+        voteMeBtn.gameObject.SetActive(false);
 
         if (PV.IsMine)
         {
@@ -243,34 +249,47 @@ public class PlayerController : MonoBehaviourPunCallbacks
             VotingManager.Instance.agreeVotes = 0;
             VotingManager.Instance.disagreeVotes = 0;
 
+            foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+            {
+                cur.PV.RPC(nameof(startVoting), cur.PV.Owner);
+            }
+
             StartCoroutine(nameof(clear));
         }
     }
 
+    [PunRPC]
+    public void startVoting()
+    {
+        VotingManager.Instance.spyVotes = new Dictionary<Photon.Realtime.Player, int>();
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            VotingManager.Instance.spyVotes[player] = 0;
+        }
+    }
+
+    #region clear
     IEnumerator clear()
     {
         yield return new WaitForSeconds(2.0f);
 
-        //ask the owner of each player
+        //ask all players to clear
         foreach (PlayerController cur in VotingManager.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(clearVoting), cur.PV.Owner);
+            cur.PV.RPC(nameof(clearAll), RpcTarget.AllBuffered);
         }
     }
 
     [PunRPC]
-    void clearVoting()
-    {
-        PV.RPC(nameof(clearImages), RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    void clearImages()
+    void clearAll()
     {
         //hide the images for start voting
         agreeImage.gameObject.SetActive(false);
         disagreeImage.gameObject.SetActive(false);
+        displayPhrase.gameObject.SetActive(false);
     }
+    #endregion
 
     #endregion
 
