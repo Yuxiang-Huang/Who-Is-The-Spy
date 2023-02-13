@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using UnityEditor.VersionControl;
 
 public class GameManager : MonoBehaviour
 {
+    PhotonView PV;
+
     public static GameManager Instance;
 
     public TextMeshProUGUI messageText;
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        PV = GetComponent<PhotonView>();
         createList();
     }
 
@@ -59,10 +63,54 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void checkVotes1()
+    {
+        //if everyone voted
+        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            //count votes
+            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting!", true);
+
+                foreach (PlayerController cur in GameManager.Instance.allPlayers)
+                {
+                    cur.PV.RPC(nameof(cur.startVotingSpy), cur.PV.Owner);
+                    cur.StartCoroutine(nameof(cur.delayVoteClear));
+                }
+            }
+            else
+            {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting Failed!", true);
+
+                foreach (PlayerController cur in GameManager.Instance.allPlayers)
+                {
+                    cur.PV.RPC(nameof(cur.delayNoVoteClear), RpcTarget.AllBuffered);
+                }
+            }
+        }
+    }
+
     IEnumerator CountDown()
     {
         yield return new WaitForSeconds(3f);
 
         messageText.text = "";
+    }
+
+    [PunRPC]
+    void message(string text, bool countDown)
+    {
+        messageText.text = text;
+
+        if (curCoroutine != null)
+        {
+            StopCoroutine(curCoroutine);
+        }
+
+        if (countDown)
+        {
+            curCoroutine = StartCoroutine("CountDown");
+        }
     }
 }

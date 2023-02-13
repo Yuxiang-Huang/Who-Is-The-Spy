@@ -64,13 +64,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    #region readyPhase
+
     [PunRPC]
     void updateName(string name)
     {
         playerName.text = name;
+        voteMeBtnText.text = name;
     }
-
-    #region readyPhase
 
     public void getReady()
     {
@@ -158,20 +159,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     #endregion
 
-    [PunRPC]
-    void voteBtnSetupOwnerCall()
-    {
-        PV.RPC(nameof(voteBtnSetup), RpcTarget.AllBuffered, PhotonNetwork.NickName, PhotonNetwork.LocalPlayer);
-    }
-
-    [PunRPC]
-    void voteBtnSetup(string name, Photon.Realtime.Player player)
-    {
-        votingList.GetComponent<Vote>().player = player;
-        voteMeBtnText.text = name;
-    }
-
-    #region Voting
+    #region First Voting Process
 
     public void vote1()
     {
@@ -196,24 +184,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
         votingBtn.gameObject.SetActive(false);
     }
 
+    //set off button, display image and message, and checkVotes
     public void agree()
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
         PV.RPC(nameof(castVote1), RpcTarget.AllBuffered, true, false);
-
-        checkVotes1();
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, GameManager.Instance.agreeVotes + " : " + GameManager.Instance.disagreeVotes, false);
+        GameManager.Instance.checkVotes1();
     }
 
+    //set off button, display image and message, and checkVotes
     public void disagree()
     {
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
         PV.RPC(nameof(castVote1), RpcTarget.AllBuffered, false, true);
-
-        checkVotes1();
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, GameManager.Instance.agreeVotes + " : " + GameManager.Instance.disagreeVotes, false);
+        GameManager.Instance.checkVotes1();
     }
 
+    //display the correct image and increase the corresponding vote
     [PunRPC]
     void castVote1(bool agreeBool, bool disagreeBool)
     {
@@ -229,63 +220,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             GameManager.Instance.disagreeVotes++;
         }
     }
-
-    public void checkVotes1()
-    {
-        int agreeVotes = GameManager.Instance.agreeVotes;
-        int disagreeVotes = GameManager.Instance.disagreeVotes;
-
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, agreeVotes + " : " + disagreeVotes, false);
-
-        //if everyone voted
-        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
-        {
-            //count votes
-            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
-            {
-                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting!", true);
-
-                foreach (PlayerController cur in GameManager.Instance.allPlayers)
-                {
-                    cur.PV.RPC(nameof(startVotingSpy), cur.PV.Owner);
-                    StartCoroutine(nameof(delayClear));
-                }
-            }
-            else
-            {
-                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting Failed!", true);
-
-                foreach (PlayerController cur in GameManager.Instance.allPlayers)
-                {
-                    cur.PV.RPC(nameof(noVoteClear), RpcTarget.AllBuffered);
-                }
-            }
-        }
-    }
-
-    [PunRPC]
-    public void startVotingSpy()
-    {
-        GameManager.Instance.spyVotes = new Dictionary<Photon.Realtime.Player, int>();
-
-        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-        {
-            GameManager.Instance.spyVotes[player] = 0;
-        }
-
-        PV.RPC(nameof(votingButtonsSpy), RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void votingButtonsSpy()
-    {
-        //able to vote other people
-        if (PV.IsMine) return;
-        voteMeBtn.gameObject.SetActive(true);
-    }
+    #endregion
 
     #region clear
-    IEnumerator delayClear()
+    public IEnumerator delayVoteClear()
     {
         yield return new WaitForSeconds(2.0f);
 
@@ -293,6 +231,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
             cur.PV.RPC(nameof(voteClear), RpcTarget.AllBuffered);
+        }
+    }
+
+    public IEnumerator delayNoVoteClear()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        //ask all players to clear
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.PV.RPC(nameof(noVoteClear), RpcTarget.AllBuffered);
         }
     }
 
@@ -322,11 +271,31 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (!PV.IsMine) return;
 
+        //voting button active if owner again
         votingBtn.gameObject.SetActive(true);
     }
     #endregion
 
-    #endregion
+    [PunRPC]
+    public void startVotingSpy()
+    {
+        GameManager.Instance.spyVotes = new Dictionary<Photon.Realtime.Player, int>();
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            GameManager.Instance.spyVotes[player] = 0;
+        }
+
+        PV.RPC(nameof(votingButtonsSpy), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void votingButtonsSpy()
+    {
+        //able to vote other people
+        if (PV.IsMine) return;
+        voteMeBtn.gameObject.SetActive(true);
+    }
 
     [PunRPC]
     void message(string text, bool countDown)
