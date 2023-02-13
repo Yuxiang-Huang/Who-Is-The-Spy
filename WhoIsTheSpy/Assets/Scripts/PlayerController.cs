@@ -342,6 +342,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void restart()
     {
         ready = false;
+        readyText.text = "Not Ready";
         readyTextAll.text = "Not Ready";
 
         //ready button visible if owner and readyTextAll only shown if not owner

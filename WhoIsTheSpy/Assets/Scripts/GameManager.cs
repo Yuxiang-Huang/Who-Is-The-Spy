@@ -44,13 +44,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    void restart()
+    {
+        numPlayerReady = 0;
+    }
+
     public void checkReady()
     {
         //everyone is ready, start game
         if (numPlayerReady == PhotonNetwork.CurrentRoom.PlayerCount)
         {
             //clear things from last game
-            numPlayerReady = 0;
+            PV.RPC(nameof(restart), RpcTarget.AllBuffered);
 
             foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
