@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce157bae08b3469e844c1d3c520513e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 0}
   isSpy: 0
   restartBtn: {fileID: 7721985413794324787}
   votingBtn: {fileID: 5383752272094184001}
@@ -335,6 +336,7 @@ MonoBehaviour:
   disagreeBtn: {fileID: 4487355742835168014}
   agreeImage: {fileID: 5967205830924445435}
   disagreeImage: {fileID: 4216374035970866739}
+  votingList: {fileID: 5291579179245164534}
   voteMeBtn: {fileID: 5378994989123272653}
   voteMeBtnText: {fileID: 8594237862266300879}
   phrase: 
@@ -508,8 +510,6 @@ GameObject:
   - component: {fileID: 8968638814886475310}
   - component: {fileID: 2924188046601397008}
   - component: {fileID: 5378994989123272653}
-  - component: {fileID: 5758202679246872772}
-  - component: {fileID: 5107150478985203294}
   m_Layer: 5
   m_Name: Vote
   m_TagString: Untagged
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5758202679246872772}
+      - m_Target: {fileID: 1464108317742155171}
         m_TargetAssemblyTypeName: Vote, Assembly-CSharp
         m_MethodName: voteMe
         m_Mode: 1
@@ -632,43 +632,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5758202679246872772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3223560077970075014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4071d0281a3a94fb0aeea5bde51315e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PV: {fileID: 0}
-  votingList: {fileID: 3368140813766963540}
-  votingItem: {fileID: 515464979122795579, guid: 4ec1c42cfc2e244d8bc76eac40bbce83, type: 3}
---- !u!114 &5107150478985203294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3223560077970075014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3779232998452397798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3368140813766963540}
   - component: {fileID: 474478212504493082}
+  - component: {fileID: 1464108317742155171}
   m_Layer: 5
   m_Name: Vote
   m_TagString: Untagged
@@ -1182,7 +1146,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 63}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 130, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &474478212504493082
 MonoBehaviour:
@@ -1210,6 +1174,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1464108317742155171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5291579179245164534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4071d0281a3a94fb0aeea5bde51315e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 0}
+  votingList: {fileID: 3368140813766963540}
+  votingItem: {fileID: 515464979122795579, guid: 4ec1c42cfc2e244d8bc76eac40bbce83, type: 3}
 --- !u!1 &5539599480556855262
 GameObject:
   m_ObjectHideFlags: 0

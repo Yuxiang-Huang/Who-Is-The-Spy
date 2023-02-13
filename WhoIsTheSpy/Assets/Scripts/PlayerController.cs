@@ -9,7 +9,7 @@ using System.Runtime.ConstrainedExecution;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
-    PhotonView PV;
+    public PhotonView PV;
 
     public bool isSpy;
 
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public RawImage agreeImage;
     public RawImage disagreeImage;
 
+    public GameObject votingList;
     public Button voteMeBtn;
     public TextMeshProUGUI voteMeBtnText;
 
@@ -96,7 +97,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void voteBtnSetup(string name, Photon.Realtime.Player player)
     {
-        voteMeBtn.GetComponent<Vote>().player = player;
+        votingList.GetComponent<Vote>().player = player;
         voteMeBtnText.text = name;
     }
 
@@ -153,6 +154,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             votingBtn.gameObject.SetActive(false);
             displayPhrase.gameObject.SetActive(false);
         }
+    }
+
+    [PunRPC]
+    void revealPhrase()
+    {
+        displayPhrase.gameObject.SetActive(true);
     }
 
     #endregion
