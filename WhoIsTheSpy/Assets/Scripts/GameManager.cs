@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
-using UnityEditor.VersionControl;
+using System;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,16 +33,6 @@ public class GameManager : MonoBehaviour
         Instance = this;
         PV = GetComponent<PhotonView>();
         createList();
-    }
-
-    void createList()
-    {
-        allPhrases = new List<string>();
-
-        for (int i = 0; i < 26; i++)
-        {
-            allPhrases.Add("" + (char)(i + 'a'));
-        }
     }
 
     [PunRPC]
@@ -181,5 +172,37 @@ public class GameManager : MonoBehaviour
         {
             curCoroutine = StartCoroutine("CountDown");
         }
+    }
+
+    void createList()
+    {
+        allPhrases = new List<string>();
+        allPhrases.Add("Airplane");
+        allPhrases.Add("Bank");
+        allPhrases.Add("Beach");
+        allPhrases.Add("Broadway Theater");
+        allPhrases.Add("Casino");
+        allPhrases.Add("Cathedral");
+        allPhrases.Add("Circus Tent");
+        allPhrases.Add("Corporate Party");
+        allPhrases.Add("Crusader Army");
+        allPhrases.Add("Day Spa");
+        allPhrases.Add("Embassy");
+        allPhrases.Add("Hospital");
+        allPhrases.Add("Hotel");
+        allPhrases.Add("Military Base");
+        allPhrases.Add("Movie Studio");
+        allPhrases.Add("Ocean Liner");
+        allPhrases.Add("Passenger Train");
+        allPhrases.Add("Pirate Ship");
+        allPhrases.Add("Polar Station");
+        allPhrases.Add("Police Station");
+        allPhrases.Add("Restaurant");
+        allPhrases.Add("School");
+        allPhrases.Add("Service Station");
+        allPhrases.Add("Space Station");
+        allPhrases.Add("Submarine");
+        allPhrases.Add("Supermarket");
+        allPhrases.Add("University");
     }
 }
