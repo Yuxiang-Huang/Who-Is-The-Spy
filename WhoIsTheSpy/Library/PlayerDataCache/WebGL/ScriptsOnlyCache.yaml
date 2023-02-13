@@ -1,12 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - GameManager
     - NetworkManager
     - PlayerController
     - PlayerListItem
     - PlayerManager
     - PlayerNameManager
-    - RevealText
     - RoomListItem
     - RoomManager
     - Screen
@@ -38,6 +38,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.HorizontalLayoutGroup
     - UnityEngine.UI.Image
     - UnityEngine.UI.LayoutElement
+    - UnityEngine.UI.RawImage
     - UnityEngine.UI.RectMask2D
     - UnityEngine.UI.VerticalLayoutGroup
   serializedClasses:
@@ -110,13 +111,19 @@ ScriptsOnlyBuild:
     methodName: DisplayScreen
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: reveal
+    methodName: getReady
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: win
+    methodName: vote1
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: lose
+    methodName: agree
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: disagree
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: voteMe
   sceneClasses:
     Assets/Scenes/Game.unity:
     - Class: 1
@@ -140,9 +147,9 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1734}
+      Script: {instanceID: 1736}
     - Class: 114
-      Script: {instanceID: 1794}
+      Script: {instanceID: 1796}
     - Class: 114
       Script: {instanceID: 2344}
     - Class: 114
@@ -152,9 +159,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2614}
     - Class: 114
+      Script: {instanceID: 2788}
+    - Class: 114
       Script: {instanceID: 2796}
     - Class: 114
-      Script: {instanceID: 3178}
+      Script: {instanceID: 4462}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -195,15 +204,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1538}
     - Class: 114
-      Script: {instanceID: 1606}
+      Script: {instanceID: 1540}
     - Class: 114
-      Script: {instanceID: 1690}
+      Script: {instanceID: 1608}
     - Class: 114
-      Script: {instanceID: 1794}
+      Script: {instanceID: 1692}
     - Class: 114
-      Script: {instanceID: 2010}
+      Script: {instanceID: 1796}
     - Class: 114
-      Script: {instanceID: 2048}
+      Script: {instanceID: 2012}
+    - Class: 114
+      Script: {instanceID: 2050}
     - Class: 114
       Script: {instanceID: 2344}
     - Class: 114
@@ -229,19 +240,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3128}
     - Class: 114
-      Script: {instanceID: 3438}
+      Script: {instanceID: 3436}
     - Class: 114
-      Script: {instanceID: 3786}
+      Script: {instanceID: 3784}
     - Class: 114
-      Script: {instanceID: 3790}
+      Script: {instanceID: 3788}
     - Class: 114
-      Script: {instanceID: 3802}
+      Script: {instanceID: 3800}
     - Class: 114
-      Script: {instanceID: 4048}
+      Script: {instanceID: 4046}
     - Class: 114
-      Script: {instanceID: 4054}
+      Script: {instanceID: 4052}
     - Class: 114
-      Script: {instanceID: 4168}
+      Script: {instanceID: 4166}
     - Class: 114
       Script: {instanceID: 4406}
     - Class: 115
@@ -267,6 +278,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Image
+  - hash:
+      serializedVersion: 2
+      Hash: c1d728126ff1918728036c59106d32b2
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: RawImage
   - hash:
       serializedVersion: 2
       Hash: 24f79094aff162c9aa69c31d64d777d3
@@ -399,12 +416,6 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities.dll
     namespaceName: Photon.Pun.UtilityScripts
     className: PunPlayerScores
-  - hash:
-      serializedVersion: 2
-      Hash: c1d728126ff1918728036c59106d32b2
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: RawImage
   - hash:
       serializedVersion: 2
       Hash: 87207d40b89ca632396b05b3cb1e69b0
@@ -605,7 +616,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: 7597f8f9ecb005ca397cbe9cd37af6ef
+      Hash: e16e56c58477a713e29e4f2c53920b03
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -669,12 +680,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: BaseInput
-  - hash:
-      serializedVersion: 2
-      Hash: ee98729079998eb63435f99f41b30b9e
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: RevealText
   - hash:
       serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
@@ -941,6 +946,12 @@ ScriptsOnlyBuild:
     className: PunTurnManager
   - hash:
       serializedVersion: 2
+      Hash: 0ca057b1da83e423792c3186f46e57ea
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Vote
+  - hash:
+      serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -981,8 +992,14 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities.dll
     namespaceName: Photon.Pun.UtilityScripts
     className: PhotonTeamsManager
+  - hash:
+      serializedVersion: 2
+      Hash: 6772dc043ea2616d13290dc0b36b45af
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameManager
   platform: 20
   scenePathNames:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/Game.unity
-  playerPath: /Users/yuxianghuang/Multiplayer/MultiplayerUnity/Build
+  playerPath: /Users/yuxianghuang/Who-Is-The-Spy/WhoIsTheSpy/Version0
