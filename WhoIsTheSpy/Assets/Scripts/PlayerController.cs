@@ -9,27 +9,26 @@ using System.Runtime.ConstrainedExecution;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    [Header("Ready Phase")]
     public PhotonView PV;
-
     bool ready;
-    public TextMeshProUGUI readyText;
-
-    bool isSpy;
-
     public Button readyBtn;
+    public TextMeshProUGUI readyText;
+    public TextMeshProUGUI readyTextAll;
 
-    //first voting buttons
+    [Header("First Voting Phase")]
     public Button votingBtn;
     public Button agreeBtn;
     public Button disagreeBtn;
     public RawImage agreeImage;
     public RawImage disagreeImage;
 
-    //voting spy
+    [Header("Voting Spy Phase")]
     public GameObject votingList;
     public Button voteMeBtn;
     public TextMeshProUGUI voteMeBtnText;
 
+    [Header("PlayerUI")]
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI displayPhrase;
 
@@ -44,15 +43,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //update name
         if (PV.IsMine)
         {
-            PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, "", isSpy);
+            PV.RPC(nameof(updateName), RpcTarget.AllBuffered, PhotonNetwork.NickName);
         }
         //everything off first
         votingBtn.gameObject.SetActive(false);
         displayPhrase.gameObject.SetActive(false);
+        readyTextAll.gameObject.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
-        //ready button visible if owner
+        //ready button visible if owner and readyTextAll only shown if not owner
         if (PV.IsMine)
         {
             readyBtn.gameObject.SetActive(true);
@@ -60,7 +60,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         else
         {
             readyBtn.gameObject.SetActive(false);
+            readyTextAll.gameObject.SetActive(true);
         }
+    }
+
+    [PunRPC]
+    void updateName(string name)
+    {
+        playerName.text = name;
     }
 
     #region readyPhase
@@ -79,43 +86,33 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             GameManager.Instance.numPlayerReady++;
             readyText.text = "Ready";
+            readyTextAll.text = "Ready";
         }
         else
         {
             GameManager.Instance.numPlayerReady--;
             readyText.text = "Not Ready";
+            readyTextAll.text = "Not Ready";
         }
-        GameManager.Instance.checkReady();
+
+        if (PV.IsMine)
+        {
+            GameManager.Instance.checkReady();
+        }
     }
     #endregion
-
-    [PunRPC]
-    void voteBtnSetupOwnerCall()
-    {
-        PV.RPC(nameof(voteBtnSetup), RpcTarget.AllBuffered, PhotonNetwork.NickName, PhotonNetwork.LocalPlayer);
-    }
-
-    [PunRPC]
-    void voteBtnSetup(string name, Photon.Realtime.Player player)
-    {
-        votingList.GetComponent<Vote>().player = player;
-        voteMeBtnText.text = name;
-    }
 
     #region Phrase
 
     [PunRPC]
     void assignPhrase(string phrase, Photon.Realtime.Player spy)
     {
-        PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, PhotonNetwork.NickName, phrase,
-            PhotonNetwork.LocalPlayer == spy);
+        PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, phrase, PhotonNetwork.LocalPlayer == spy);
     }
 
     [PunRPC]
-    void updatePhrase(string name, string phrase, bool isSpy)
+    void updatePhrase(string phrase, bool isSpy)
     {
-        playerName.text = name;
-
         //spy can't see the phrase
         if (isSpy)
         {
@@ -126,7 +123,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             displayPhrase.text = phrase;
         }
 
-        //everything in voting process off 
+        //everything not needed off
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
         agreeImage.gameObject.SetActive(false);
@@ -137,6 +134,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         votingBtn.gameObject.SetActive(false);
         displayPhrase.gameObject.SetActive(false);
+
+        readyTextAll.gameObject.SetActive(false);
 
         //voting button and phrase are only shown if owner
         if (PV.IsMine)
@@ -158,6 +157,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     #endregion
+
+    [PunRPC]
+    void voteBtnSetupOwnerCall()
+    {
+        PV.RPC(nameof(voteBtnSetup), RpcTarget.AllBuffered, PhotonNetwork.NickName, PhotonNetwork.LocalPlayer);
+    }
+
+    [PunRPC]
+    void voteBtnSetup(string name, Photon.Realtime.Player player)
+    {
+        votingList.GetComponent<Vote>().player = player;
+        voteMeBtnText.text = name;
+    }
 
     #region Voting
 
