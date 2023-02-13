@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using TMPro;
 
 public class Vote : MonoBehaviour
 {
     public PhotonView PV;
     public Photon.Realtime.Player player;
+    [SerializeField] Transform votingList;
+    [SerializeField] GameObject votingItem;
 
     void Awake()
     {
@@ -16,20 +19,32 @@ public class Vote : MonoBehaviour
 
     public void voteMe()
     {
-        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, player);
+        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, player, PhotonNetwork.NickName);
+
+        //clear buttons
+        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+        {
+            cur.votingBtn.gameObject.SetActive(false);
+        }
     }
 
     [PunRPC]
-    public void castVoteSpy(Photon.Realtime.Player votedPlayer)
+    public void castVoteSpy(Photon.Realtime.Player votedPlayer, string voter)
     {
         VotingManager.Instance.spyVotes[votedPlayer]++;
-        string str = "";
 
-        foreach (var (key, value) in VotingManager.Instance.spyVotes)
-        {
-            str += key.NickName + " : " + value + ", ";
-        }
+        GameObject cur = Instantiate(votingItem, votingList);
+        cur.GetComponent<TextMeshProUGUI>().text = voter;
 
-        VotingManager.Instance.messageText.text = str;
+        //string str = "";
+
+        //foreach (var (key, value) in VotingManager.Instance.spyVotes)
+        //{
+        //    str += key.NickName + " : " + value + ", ";
+        //}
+
+        //VotingManager.Instance.messageText.text = str;
     }
+
+
 }

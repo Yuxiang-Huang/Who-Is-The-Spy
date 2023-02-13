@@ -59,6 +59,11 @@ MonoBehaviour:
   - startVotingSpy
   - votingButtons1
   - votingButtonsSpy
+  - voteBtnSetup
+  - voteBtnSetupOwnerCall
+  - votingButtonReset
+  - noVoteClear
+  - voteClear
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
