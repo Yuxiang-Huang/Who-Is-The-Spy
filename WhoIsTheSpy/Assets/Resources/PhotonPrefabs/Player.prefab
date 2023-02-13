@@ -329,8 +329,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
-  isSpy: 0
-  restartBtn: {fileID: 7721985413794324787}
+  readyText: {fileID: 4590256027074585537}
+  readyBtn: {fileID: 7721985413794324787}
   votingBtn: {fileID: 5383752272094184001}
   agreeBtn: {fileID: 3630966474691567065}
   disagreeBtn: {fileID: 4487355742835168014}
@@ -339,7 +339,6 @@ MonoBehaviour:
   votingList: {fileID: 5291579179245164534}
   voteMeBtn: {fileID: 5378994989123272653}
   voteMeBtnText: {fileID: 8594237862266300879}
-  phrase: 
   playerName: {fileID: 9156772557586540391}
   displayPhrase: {fileID: 3803182633457281029}
 --- !u!114 &4434306806922390120
@@ -377,7 +376,7 @@ GameObject:
   - component: {fileID: 5987668850144853078}
   - component: {fileID: 7721985413794324787}
   m_Layer: 5
-  m_Name: RestartButton
+  m_Name: ReadyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -488,7 +487,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: restart
+        m_MethodName: getReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -968,7 +967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: Not Ready
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1145,7 +1144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 63}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &474478212504493082

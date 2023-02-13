@@ -12,6 +12,7 @@ public class Vote : MonoBehaviour
     [SerializeField] Transform votingList;
     [SerializeField] GameObject votingItem;
 
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -22,7 +23,7 @@ public class Vote : MonoBehaviour
         PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, player, PhotonNetwork.NickName);
 
         //clear buttons
-        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
             cur.voteMeBtn.gameObject.SetActive(false);
         }
@@ -33,7 +34,7 @@ public class Vote : MonoBehaviour
         int maxVote = 0;
         Photon.Realtime.Player voted = null;
 
-        foreach (var (key, value) in VotingManager.Instance.spyVotes)
+        foreach (var (key, value) in GameManager.Instance.spyVotes)
         {
             totalVote += value;
             if (value > maxVote)
@@ -46,7 +47,7 @@ public class Vote : MonoBehaviour
         //reveal spy
         if (totalVote == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
                 cur.PV.RPC("revealPhrase", RpcTarget.AllBuffered);
                 StartCoroutine(nameof(delayClearSpy));
@@ -61,7 +62,7 @@ public class Vote : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         //ask all players to clear
-        foreach (PlayerController cur in VotingManager.Instance.allPlayers)
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
             cur.PV.RPC(nameof(clearList), RpcTarget.AllBuffered);
         }
@@ -74,12 +75,12 @@ public class Vote : MonoBehaviour
         {
             Destroy(transform.gameObject);
         }
-    } 
+    }
 
     [PunRPC]
     void castVoteSpy(Photon.Realtime.Player votedPlayer, string voter)
     {
-        VotingManager.Instance.spyVotes[votedPlayer]++;
+        GameManager.Instance.spyVotes[votedPlayer]++;
 
         GameObject cur = Instantiate(votingItem, votingList);
         cur.GetComponent<TextMeshProUGUI>().text = voter;
@@ -88,17 +89,16 @@ public class Vote : MonoBehaviour
     [PunRPC]
     void message(string text, bool countDown)
     {
-        VotingManager.Instance.messageText.text = text;
+        GameManager.Instance.messageText.text = text;
 
-        if (VotingManager.Instance.curCoroutine != null)
+        if (GameManager.Instance.curCoroutine != null)
         {
-            VotingManager.Instance.StopCoroutine(VotingManager.Instance.curCoroutine);
+            GameManager.Instance.StopCoroutine(GameManager.Instance.curCoroutine);
         }
 
         if (countDown)
         {
-            VotingManager.Instance.curCoroutine = VotingManager.Instance.StartCoroutine("CountDown");
+            GameManager.Instance.curCoroutine = GameManager.Instance.StartCoroutine("CountDown");
         }
     }
 }
-
