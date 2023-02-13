@@ -338,9 +338,10 @@ MonoBehaviour:
   disagreeBtn: {fileID: 4487355742835168014}
   agreeImage: {fileID: 5967205830924445435}
   disagreeImage: {fileID: 4216374035970866739}
-  votingList: {fileID: 5291579179245164534}
   voteMeBtn: {fileID: 5378994989123272653}
   voteMeBtnText: {fileID: 8594237862266300879}
+  votingList: {fileID: 3368140813766963540}
+  votingItem: {fileID: 515464979122795579, guid: 4ec1c42cfc2e244d8bc76eac40bbce83, type: 3}
   playerName: {fileID: 9156772557586540391}
   displayPhrase: {fileID: 3803182633457281029}
 --- !u!114 &4434306806922390120
@@ -756,8 +757,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1464108317742155171}
-        m_TargetAssemblyTypeName: Vote, Assembly-CSharp
+      - m_Target: {fileID: 5975330776842844921}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: voteMe
         m_Mode: 1
         m_Arguments:
@@ -1256,9 +1257,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3368140813766963540}
   - component: {fileID: 474478212504493082}
-  - component: {fileID: 1464108317742155171}
   m_Layer: 5
-  m_Name: Vote
+  m_Name: Voting List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1310,21 +1310,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1464108317742155171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5291579179245164534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4071d0281a3a94fb0aeea5bde51315e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PV: {fileID: 0}
-  votingList: {fileID: 3368140813766963540}
-  votingItem: {fileID: 515464979122795579, guid: 4ec1c42cfc2e244d8bc76eac40bbce83, type: 3}
 --- !u!1 &5539599480556855262
 GameObject:
   m_ObjectHideFlags: 0

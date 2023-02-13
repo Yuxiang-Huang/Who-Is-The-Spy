@@ -49,6 +49,16 @@ public class GameManager : MonoBehaviour
         //everyone is ready, start game
         if (numPlayerReady == PhotonNetwork.CurrentRoom.PlayerCount)
         {
+            //clear things from last game
+            numPlayerReady = 0;
+
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
+            }
+
+            PV.RPC(nameof(message), RpcTarget.AllBuffered, "", false);
+
             //pick spy
             int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
             spy = PhotonNetwork.PlayerList[spyNum];
@@ -68,11 +78,12 @@ public class GameManager : MonoBehaviour
         //if everyone voted
         if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            //count votes
+            //count votes, display message, and clear in both cases
             if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
             {
                 PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting!", true);
 
+                //ask every owner
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
                     cur.PV.RPC(nameof(cur.startVotingSpy), cur.PV.Owner);
@@ -91,9 +102,59 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void checkVoteSpy()
+    {
+        //check vote
+        int totalVote = 0;
+
+        int maxVote = 0;
+        Photon.Realtime.Player voted = null;
+
+        foreach (var (key, value) in GameManager.Instance.spyVotes)
+        {
+            totalVote += value;
+            if (value > maxVote)
+            {
+                maxVote = value;
+                voted = key;
+            }
+        }
+
+        //reveal spy
+        if (totalVote == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                cur.PV.RPC("revealPhrase", RpcTarget.AllBuffered);
+            }
+
+            //find winner
+            string result = voted.NickName + " is voted as spy. Spy ";
+
+            if (spy == voted)
+            {
+                result += "lose!";
+            }
+            else
+            {
+                result += "won!";
+            }
+
+            result += " --- Restart?";
+
+            PV.RPC(nameof(message), RpcTarget.AllBuffered, result, false);
+
+            //restart?
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                cur.PV.RPC(nameof(cur.restart), RpcTarget.AllBuffered);
+            }
+        }
+    }
+
     IEnumerator CountDown()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         messageText.text = "";
     }
@@ -101,8 +162,10 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     void message(string text, bool countDown)
     {
+        //set text
         messageText.text = text;
 
+        //stop last corountine and start a new one if timed disappear text is needed
         if (curCoroutine != null)
         {
             StopCoroutine(curCoroutine);

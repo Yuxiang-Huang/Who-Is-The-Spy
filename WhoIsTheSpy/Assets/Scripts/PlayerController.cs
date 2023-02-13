@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Runtime.ConstrainedExecution;
+using Photon.Realtime;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
@@ -24,9 +25,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public RawImage disagreeImage;
 
     [Header("Voting Spy Phase")]
-    public GameObject votingList;
     public Button voteMeBtn;
     public TextMeshProUGUI voteMeBtnText;
+    [SerializeField] Transform votingList;
+    [SerializeField] GameObject votingItem;
 
     [Header("PlayerUI")]
     public TextMeshProUGUI playerName;
@@ -225,7 +227,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     #region clear
     public IEnumerator delayVoteClear()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.5f);
 
         //ask all players to clear
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
@@ -236,7 +238,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public IEnumerator delayNoVoteClear()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.5f);
 
         //ask all players to clear
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
@@ -276,9 +278,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region Vote Spy
+
     [PunRPC]
     public void startVotingSpy()
     {
+        //set the spyVotes diccionaries
         GameManager.Instance.spyVotes = new Dictionary<Photon.Realtime.Player, int>();
 
         foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
@@ -296,6 +301,62 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (PV.IsMine) return;
         voteMeBtn.gameObject.SetActive(true);
     }
+
+    public void voteMe()
+    {
+        PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, PV.Owner, PhotonNetwork.NickName);
+
+        //clear buttons
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.voteMeBtn.gameObject.SetActive(false);
+        }
+
+        GameManager.Instance.checkVoteSpy();
+    }
+
+    [PunRPC]
+    void castVoteSpy(Photon.Realtime.Player votedPlayer, string voter)
+    {
+        //vote
+        GameManager.Instance.spyVotes[votedPlayer]++;
+
+        //UI
+        GameObject cur = Instantiate(votingItem, votingList);
+        cur.GetComponent<TextMeshProUGUI>().text = voter;
+    }
+    #endregion
+
+    #region restart
+
+    [PunRPC]
+    public void clearList()
+    {
+        foreach (Transform transform in votingList)
+        {
+            Destroy(transform.gameObject);
+        }
+    }
+
+    [PunRPC]
+    public void restart()
+    {
+        ready = false;
+        readyTextAll.text = "Not Ready";
+
+        //ready button visible if owner and readyTextAll only shown if not owner
+        if (PV.IsMine)
+        {
+            readyBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            readyBtn.gameObject.SetActive(false);
+            readyTextAll.gameObject.SetActive(true);
+        }
+    }
+        
+    #endregion
 
     [PunRPC]
     void message(string text, bool countDown)
