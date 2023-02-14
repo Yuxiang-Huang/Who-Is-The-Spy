@@ -50,21 +50,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
             cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
+
+            //clear ready
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, "", "", spy);
+
+            //choose mode
+            cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
         }
 
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, "", false);
-
-        //pick spy
-        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        spy = PhotonNetwork.PlayerList[spyNum];
-
-        //assign phrase
-        string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
-
-        foreach (PlayerController cur in GameManager.Instance.allPlayers)
-        {
-            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
-        }
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", false);
     }
 
     [PunRPC]
@@ -86,7 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
 
                 //clear ready
-                cur.PV.RPC("assignPhrase", cur.PV.Owner, "", "", spy);
+                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, "", "", spy);
 
                 //choose mode
                 cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
