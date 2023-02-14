@@ -135,27 +135,37 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void startGameOneWord()
+    {
+        GameManager.Instance.startGame(1);
+    }
+
+    public void startGameTwoWords()
+    {
+        GameManager.Instance.startGame(2);
+    }
+
     #endregion
 
     #region Phrase
 
     [PunRPC]
-    public void assignPhrase(string phrase, Photon.Realtime.Player spy)
+    public void assignPhrase(string normalPhrase, string spyPhrase, Photon.Realtime.Player spy)
     {
-        PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, phrase, PhotonNetwork.LocalPlayer == spy);
+        PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, normalPhrase, spyPhrase, PhotonNetwork.LocalPlayer == spy);
     }
 
     [PunRPC]
-    void updatePhrase(string phrase, bool isSpy)
+    void updatePhrase(string normalPhrase, string spyPhrase, bool isSpy)
     {
-        //spy can't see the phrase
+        //different phrase for roles
         if (isSpy)
         {
-            displayPhrase.text = "???";
+            displayPhrase.text = spyPhrase;
         }
         else
         {
-            displayPhrase.text = phrase;
+            displayPhrase.text = normalPhrase;
         }
 
         //everything not needed off
@@ -175,6 +185,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         modeOneWord.gameObject.SetActive(false);
         modeTwoWords.gameObject.SetActive(false);
 
+        //restart button only visible to observer
+        if (PhotonNetwork.IsMasterClient && PV.IsMine)
+        {
+            restartBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            restartBtn.gameObject.SetActive(false);
+        }
+    }
+
+    [PunRPC]
+    public void RevealVotingBtn()
+    {
         //voting button and phrase are only shown if owner
         if (PV.IsMine)
         {
@@ -185,16 +209,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             votingBtn.gameObject.SetActive(false);
             displayPhrase.gameObject.SetActive(false);
-        }
-
-        //restart button only visible to observer
-        if (PhotonNetwork.IsMasterClient && PV.IsMine)
-        {
-            restartBtn.gameObject.SetActive(true);
-        }
-        else
-        {
-            restartBtn.gameObject.SetActive(false);
         }
     }
 

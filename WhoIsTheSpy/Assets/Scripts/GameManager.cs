@@ -6,6 +6,7 @@ using Photon.Pun;
 using System;
 using Random = UnityEngine.Random;
 using Photon.Realtime;
+using System.Runtime.ConstrainedExecution;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -62,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
-            cur.PV.RPC("assignPhrase", cur.PV.Owner, phrase, spy);
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
         }
     }
 
@@ -84,6 +85,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
 
+                //clear ready
+                cur.PV.RPC("assignPhrase", cur.PV.Owner, "", "", spy);
+
                 //choose mode
                 cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
             }
@@ -92,18 +96,36 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void startGame()
+    public void startGame(int mode)
     {
         //pick spy
         int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
 
-        //assign phrase
-        string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
+        string normalPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+        string spyPhrase = "";
 
+        //choose spyPhrase base on mode
+        if (mode == 1)
+        {
+            spyPhrase = "???";
+        }
+        else
+        {
+            spyPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+
+            //not same phrase
+            while (spyPhrase == normalPhrase)
+            {
+                spyPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+            }
+        }
+
+        //assign phrase
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
+            cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
         }
     }
 
