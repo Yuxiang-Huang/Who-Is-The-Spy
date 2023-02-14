@@ -5,8 +5,9 @@ using TMPro;
 using Photon.Pun;
 using System;
 using Random = UnityEngine.Random;
+using Photon.Realtime;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     PhotonView PV;
 
@@ -28,11 +29,14 @@ public class GameManager : MonoBehaviour
 
     public Coroutine curCoroutine;
 
+    public Photon.Realtime.Player observer;
+
     void Awake()
     {
         Instance = this;
         PV = GetComponent<PhotonView>();
         createList();
+        observer = PhotonNetwork.MasterClient;
     }
 
     public void forceRestart()
@@ -79,21 +83,27 @@ public class GameManager : MonoBehaviour
             foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
                 cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
+
+                //choose mode
+                cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
             }
 
-            PV.RPC(nameof(message), RpcTarget.AllBuffered, "", false);
+            PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", false);
+        }
+    }
 
-            //pick spy
-            int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-            PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
+    public void startGame()
+    {
+        //pick spy
+        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
 
-            //assign phrase
-            string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
+        //assign phrase
+        string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
-            foreach (PlayerController cur in GameManager.Instance.allPlayers)
-            {
-                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
-            }
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
         }
     }
 
@@ -215,6 +225,12 @@ public class GameManager : MonoBehaviour
         {
             curCoroutine = StartCoroutine("CountDown");
         }
+    }
+
+    //just in case
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        observer = newMasterClient;
     }
 
     void createList()

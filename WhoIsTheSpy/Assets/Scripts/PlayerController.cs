@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public TextMeshProUGUI readyText;
     public TextMeshProUGUI readyTextAll;
 
+    [Header("Choose Mode Phase")]
+    public Button modeOneWord;
+    public Button modeTwoWords;
+
     [Header("First Voting Phase")]
     public Button votingBtn;
     public Button agreeBtn;
@@ -52,6 +56,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         votingBtn.gameObject.SetActive(false);
         displayPhrase.gameObject.SetActive(false);
         readyTextAll.gameObject.SetActive(false);
+        modeOneWord.gameObject.SetActive(false);
+        modeTwoWords.gameObject.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
@@ -67,7 +73,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         //restart button only visible to observer
-        if (PhotonNetwork.IsMasterClient && PV.IsMine)
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer && PV.IsMine)
         {
             restartBtn.gameObject.SetActive(true);
         }
@@ -116,6 +122,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region Choose Mode Phase
+
+    [PunRPC]
+    public void chooseMode()
+    {
+        //observer responsible for choosing mode
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer && PV.IsMine)
+        {
+            modeOneWord.gameObject.SetActive(true);
+            modeTwoWords.gameObject.SetActive(true);
+        }
+    }
+
+    #endregion
+
     #region Phrase
 
     [PunRPC]
@@ -150,6 +171,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         displayPhrase.gameObject.SetActive(false);
 
         readyTextAll.gameObject.SetActive(false);
+
+        modeOneWord.gameObject.SetActive(false);
+        modeTwoWords.gameObject.SetActive(false);
 
         //voting button and phrase are only shown if owner
         if (PV.IsMine)
