@@ -85,16 +85,22 @@ public class GameManager : MonoBehaviour
 
             //pick spy
             int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-            spy = PhotonNetwork.PlayerList[spyNum];
+            PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
 
             //assign phrase
             string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
 
             foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
-                cur.PV.RPC("assignPhrase", cur.PV.Owner, phrase, spy);
+                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, phrase, spy);
             }
         }
+    }
+
+    [PunRPC]
+    public void assignSpy(int spyNum)
+    {
+        spy = PhotonNetwork.PlayerList[spyNum];
     }
 
     public void checkVotes1()
@@ -120,7 +126,7 @@ public class GameManager : MonoBehaviour
 
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
-                    cur.PV.RPC(nameof(cur.delayNoVoteClear), RpcTarget.AllBuffered);
+                    cur.StartCoroutine(nameof(cur.delayNoVoteClear), RpcTarget.AllBuffered);
                 }
             }
 

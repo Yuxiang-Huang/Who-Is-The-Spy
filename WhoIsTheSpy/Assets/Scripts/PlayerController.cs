@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     #region Phrase
 
     [PunRPC]
-    void assignPhrase(string phrase, Photon.Realtime.Player spy)
+    public void assignPhrase(string phrase, Photon.Realtime.Player spy)
     {
         PV.RPC(nameof(updatePhrase), RpcTarget.AllBuffered, phrase, PhotonNetwork.LocalPlayer == spy);
     }
