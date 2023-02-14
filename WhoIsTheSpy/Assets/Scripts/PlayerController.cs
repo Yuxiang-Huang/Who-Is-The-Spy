@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [Header("Choose Mode Phase")]
     public Button modeOneWord;
     public Button modeTwoWords;
+    public Button superNoun;
+    public TextMeshProUGUI superNounText;
 
     [Header("First Voting Phase")]
     public Button votingBtn;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         readyTextAll.gameObject.SetActive(false);
         modeOneWord.gameObject.SetActive(false);
         modeTwoWords.gameObject.SetActive(false);
+        superNoun.gameObject.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
@@ -132,7 +135,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             modeOneWord.gameObject.SetActive(true);
             modeTwoWords.gameObject.SetActive(true);
+            superNoun.gameObject.SetActive(true);
         }
+    }
+
+    public void updateSuperNoun()
+    {
+        if (GameManager.Instance.superNoun)
+        {
+            superNounText.text = "Super Noun: Off";
+        }
+        else
+        {
+            superNounText.text = "Super Noun: On";
+        }
+
+        GameManager.Instance.updateSuperNoun();
     }
 
     public void startGameOneWord()
@@ -184,6 +202,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         modeOneWord.gameObject.SetActive(false);
         modeTwoWords.gameObject.SetActive(false);
+        superNoun.gameObject.SetActive(false);
 
         //restart button only visible to observer
         if (PhotonNetwork.IsMasterClient && PV.IsMine)
@@ -357,7 +376,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void votingButtonsSpy()
     {
         //able to vote other people
-        if (PV.IsMine) return;
+        //if (PV.IsMine) return;
         voteMeBtn.gameObject.SetActive(true);
     }
 

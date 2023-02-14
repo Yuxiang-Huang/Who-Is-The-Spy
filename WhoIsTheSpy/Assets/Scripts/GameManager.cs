@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Photon.Realtime.Player observer;
 
+    public bool superNoun;
+
     void Awake()
     {
         Instance = this;
@@ -91,13 +93,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    public void updateSuperNoun()
+    {
+        superNoun = !superNoun;
+    }
+
     public void startGame(int mode)
     {
+        List<String> wordBank = allPhrases;
+
+        if (superNoun)
+        {
+            wordBank = superNouns;
+        }
+
         //pick spy
         int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
         PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
 
-        string normalPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+        string normalPhrase = wordBank[Random.Range(0, wordBank.Count)];
         string spyPhrase = "";
 
         //choose spyPhrase base on mode
@@ -107,12 +122,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            spyPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+            spyPhrase = wordBank[Random.Range(0, wordBank.Count)];
 
             //not same phrase
             while (spyPhrase == normalPhrase)
             {
-                spyPhrase = allPhrases[Random.Range(0, allPhrases.Count)];
+                spyPhrase = wordBank[Random.Range(0, wordBank.Count)];
             }
         }
 
