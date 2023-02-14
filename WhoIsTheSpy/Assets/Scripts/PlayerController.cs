@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [Header("PlayerUI")]
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI displayPhrase;
+    public Button restartBtn;
 
     void Awake()
     {
@@ -150,6 +151,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             votingBtn.gameObject.SetActive(false);
             displayPhrase.gameObject.SetActive(false);
+        }
+
+        //restart button only visible to observer
+        if (PhotonNetwork.IsMasterClient && PV.IsMine)
+        {
+            restartBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            restartBtn.gameObject.SetActive(false);
         }
     }
 
@@ -356,7 +367,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             readyTextAll.gameObject.SetActive(true);
         }
     }
-        
+
+    public void forceRestart()
+    {
+        GameManager.Instance.forceRestart();
+    }
+
     #endregion
 
     [PunRPC]

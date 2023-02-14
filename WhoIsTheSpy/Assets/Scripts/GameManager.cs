@@ -35,6 +35,33 @@ public class GameManager : MonoBehaviour
         createList();
     }
 
+    public void forceRestart()
+    {
+        //clear things from last game
+        PV.RPC(nameof(restart), RpcTarget.AllBuffered);
+
+        PV.RPC(nameof(clearVote1), RpcTarget.AllBuffered);
+
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
+        }
+
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, "", false);
+
+        //pick spy
+        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
+        spy = PhotonNetwork.PlayerList[spyNum];
+
+        //assign phrase
+        string phrase = allPhrases[Random.Range(0, allPhrases.Count)];
+
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.PV.RPC("assignPhrase", cur.PV.Owner, phrase, spy);
+        }
+    }
+
     [PunRPC]
     void restart()
     {
@@ -96,7 +123,16 @@ public class GameManager : MonoBehaviour
                     cur.PV.RPC(nameof(cur.delayNoVoteClear), RpcTarget.AllBuffered);
                 }
             }
+
+            //reset votes
+            PV.RPC(nameof(clearVote1), RpcTarget.AllBuffered);
         }
+    }
+
+    void clearVote1()
+    {
+        agreeVotes = 0;
+        disagreeVotes = 0;
     }
 
     public void checkVoteSpy()
