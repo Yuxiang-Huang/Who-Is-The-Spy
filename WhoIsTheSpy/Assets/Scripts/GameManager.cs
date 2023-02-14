@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     void clearVote1()
     {
         agreeVotes = 0;
