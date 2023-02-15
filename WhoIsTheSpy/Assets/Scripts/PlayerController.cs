@@ -314,19 +314,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void updatePhrase(string normalPhrase, string spyPhrase, bool isSpy)
     {
-        //don't assign to observer
-        if (PV.Owner == GameManager.Instance.observer) return;
-
-        //different phrase for roles
-        if (isSpy)
-        {
-            displayPhrase.text = spyPhrase;
-        }
-        else
-        {
-            displayPhrase.text = normalPhrase;
-        }
-
         //everything not needed off
         agreeBtn.gameObject.SetActive(false);
         disagreeBtn.gameObject.SetActive(false);
@@ -342,12 +329,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         passModeChooser.SetActive(false);
         passModeChooserBtn.SetActive(false);
 
-        //observer can see all words
-        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer)
-        {
-            displayPhrase.gameObject.SetActive(true);
-        }
-
         readyTextAll.gameObject.SetActive(false);
 
         modeScreen.SetActive(false);
@@ -356,6 +337,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
         normalWord.SetActive(false);
         spyWord.SetActive(false);
         screenInOutGame.SetActive(false);
+
+        //don't assign to observer
+        if (PV.Owner == GameManager.Instance.observer) return;
+
+        //different phrase for roles
+        if (isSpy)
+        {
+            displayPhrase.text = spyPhrase;
+        }
+        else
+        {
+            displayPhrase.text = normalPhrase;
+        }
+
+        //observer can see all words
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer)
+        {
+            displayPhrase.gameObject.SetActive(true);
+        }
 
         //restart button only visible to masterclient
         if (PhotonNetwork.IsMasterClient && PV.IsMine)
