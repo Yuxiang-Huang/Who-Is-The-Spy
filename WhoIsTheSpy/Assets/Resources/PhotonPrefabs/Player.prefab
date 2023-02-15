@@ -601,6 +601,10 @@ MonoBehaviour:
   readyTextAll: {fileID: 5192748098401772874}
   modeScreen: {fileID: 1578683375750591566}
   screenCustomOrRandom: {fileID: 5005905242018299093}
+  normalWord: {fileID: 1838840584752607864}
+  normalWordInput: {fileID: 392136881018365928}
+  spyWord: {fileID: 2024837099233582557}
+  spyWordInput: {fileID: 6588715875342391531}
   screenCustomInput: {fileID: 7427642763256873484}
   screenInOutGame: {fileID: 8379916130757924105}
   superNounText: {fileID: 8531008577567446847}
@@ -929,7 +933,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2895000674919567980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5975330776842844921}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: startGameCustomWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1838840584752607864
 GameObject:
   m_ObjectHideFlags: 0

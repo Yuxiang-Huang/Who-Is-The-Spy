@@ -152,12 +152,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         //assign phrase
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
-            //exclude observer
+            //don't assign to observer
             if (cur.PV.Owner != observer)
             {
                 cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
                 cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
             }
+
+            //observer can see all words but no voting
+            cur.displayPhrase.gameObject.SetActive(true);
         }
     }
 
@@ -201,11 +204,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void checkVotes1()
     {
+        int totalVote = PhotonNetwork.CurrentRoom.PlayerCount;
+        if (observer != null)
+        {
+            totalVote--;
+        }
+
         //if everyone voted
-        if (agreeVotes + disagreeVotes == PhotonNetwork.CurrentRoom.PlayerCount)
+        if (agreeVotes + disagreeVotes == totalVote)
         {
             //count votes, display message, and clear in both cases
-            if (agreeVotes > PhotonNetwork.CurrentRoom.PlayerCount / 2)
+            if (agreeVotes > totalVote / 2)
             {
                 PV.RPC(nameof(message), RpcTarget.AllBuffered, "Start Voting!", true);
 
@@ -256,12 +265,19 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
+        int neededVotes = PhotonNetwork.CurrentRoom.PlayerCount;
+
+        if (observer != null)
+        {
+            neededVotes --;
+        }
+
         //reveal spy
-        if (totalVote == PhotonNetwork.CurrentRoom.PlayerCount)
+        if (totalVote == neededVotes)
         {
             foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
-                cur.PV.RPC("revealPhrase", RpcTarget.AllBuffered);
+                cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
             }
 
             //find winner

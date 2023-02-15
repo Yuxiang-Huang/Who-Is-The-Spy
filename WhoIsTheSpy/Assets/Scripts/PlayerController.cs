@@ -194,6 +194,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             spyWord.SetActive(true);
         }
+
+        //automatically observer
+        PV.RPC(nameof(updateObserver), RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
     }
 
     public void startGameCustomWord()
@@ -250,6 +253,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void updatePhrase(string normalPhrase, string spyPhrase, bool isSpy)
     {
+        //don't assign to observer
+        if (PV.Owner == GameManager.Instance.observer) return;
+
         //different phrase for roles
         if (isSpy)
         {
@@ -309,7 +315,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void revealPhrase()
+    public void revealPhrase()
     {
         displayPhrase.gameObject.SetActive(true);
     }
