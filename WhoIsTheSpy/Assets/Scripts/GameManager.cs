@@ -49,25 +49,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void forceRestart()
     {
-        //clear things from last game
-        observer = null;
-
-        PV.RPC(nameof(restart), RpcTarget.AllBuffered);
-
         PV.RPC(nameof(clearVote1), RpcTarget.AllBuffered);
 
-        foreach (PlayerController cur in GameManager.Instance.allPlayers)
-        {
-            cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
-
-            //clear ready
-            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, "", "", spy);
-
-            //choose mode
-            cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
-        }
-
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
+        startMode();
     }
 
     [PunRPC]
@@ -83,24 +67,29 @@ public class GameManager : MonoBehaviourPunCallbacks
         //everyone is ready, start game
         if (numPlayerReady == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            observer = null;
-
-            //clear things from last game
-            PV.RPC(nameof(restart), RpcTarget.AllBuffered);
-
-            foreach (PlayerController cur in GameManager.Instance.allPlayers)
-            {
-                cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
-
-                //clear ready
-                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, "", "", spy);
-
-                //choose mode
-                cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
-            }
-
-            PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
+            startMode();
         }
+    }
+
+    void startMode()
+    {
+        observer = null;
+
+        //clear things from last game
+        PV.RPC(nameof(restart), RpcTarget.AllBuffered);
+
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.PV.RPC(nameof(cur.clearList), RpcTarget.AllBuffered);
+
+            //clear ready
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, "", "", spy);
+
+            //choose mode
+            cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
+        }
+
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
     }
 
     #region mode

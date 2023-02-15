@@ -114,6 +114,15 @@ ScriptsOnlyBuild:
     methodName: getReady
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
+    methodName: startGameOneWord
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: startGameTwoWords
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: updateSuperNoun
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
     methodName: vote1
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
@@ -129,13 +138,25 @@ ScriptsOnlyBuild:
     methodName: forceRestart
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: startGameOneWord
+    methodName: startOutGame
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: startGameTwoWords
+    methodName: startInGame
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
-    methodName: updateSuperNoun
+    methodName: startGameRandom
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: randomWord
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: customWord
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: startGameCustomWord
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: LeaveRoom
   sceneClasses:
     Assets/Scenes/Game.unity:
     - Class: 1
@@ -159,6 +180,8 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
+      Script: {instanceID: 1538}
+    - Class: 114
       Script: {instanceID: 1736}
     - Class: 114
       Script: {instanceID: 1796}
@@ -175,7 +198,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2796}
     - Class: 114
-      Script: {instanceID: 4462}
+      Script: {instanceID: 2876}
+    - Class: 114
+      Script: {instanceID: 4460}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -183,6 +208,8 @@ ScriptsOnlyBuild:
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -266,7 +293,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4166}
     - Class: 114
-      Script: {instanceID: 4406}
+      Script: {instanceID: 4404}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -628,7 +655,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: f61af3ca01b521179fcfdea15528fc1d
+      Hash: 87349aa57c3ba28e2ba0cfb228db7738
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1008,4 +1035,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/Game.unity
-  playerPath: /Users/yuxianghuang/Who-Is-The-Spy/WhoIsTheSpy/Version0
+  playerPath: /Users/yuxianghuang/Who-Is-The-Spy-Builds/Version2

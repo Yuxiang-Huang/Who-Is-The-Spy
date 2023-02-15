@@ -1,0 +1,41 @@
+<linker>
+	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="GameManager">
+			<method name="LeaveRoom"/>
+		</type>
+		<type fullname="NetworkManager">
+			<method name="CreateRoom"/>
+			<method name="LeaveRoom"/>
+			<method name="StartGame"/>
+		</type>
+		<type fullname="PlayerController">
+			<method name="agree"/>
+			<method name="customWord"/>
+			<method name="disagree"/>
+			<method name="forceRestart"/>
+			<method name="getReady"/>
+			<method name="randomWord"/>
+			<method name="startGameCustomWord"/>
+			<method name="startGameOneWord"/>
+			<method name="startGameRandom"/>
+			<method name="startGameTwoWords"/>
+			<method name="startInGame"/>
+			<method name="startOutGame"/>
+			<method name="updateSuperNoun"/>
+			<method name="vote1"/>
+			<method name="voteMe"/>
+		</type>
+		<type fullname="PlayerNameManager">
+			<method name="onNameInputValueChanged"/>
+		</type>
+		<type fullname="RoomListItem">
+			<method name="OnClick"/>
+		</type>
+		<type fullname="ScreenManager">
+			<method name="DisplayScreen"/>
+			<method name="DisplayScreen"/>
+			<method name="DisplayScreen"/>
+			<method name="DisplayScreen"/>
+		</type>
+	</assembly>
+</linker>
