@@ -1032,6 +1032,8 @@ struct PhotonView_t43F3D22FF3D00F7824E82D741D70F9CB55642E6B;
 struct Plane_tB7D8CC6F7AACF5F3AA483AF005C1102A8577BC0C;
 // Photon.Realtime.Player
 struct Player_tC864A64FC55FA6E30EFD6B6FF314C9725DDA363C;
+// PlayerController
+struct PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95;
 // UnityEngine.Networking.PlayerConnection.PlayerEditorConnectionEvents
 struct PlayerEditorConnectionEvents_tF92F4A9A0EDAB7D3D544AE9B0F3F925C4E48B7CB;
 // UnityEngine.EventSystems.PointerEventData
@@ -4656,6 +4658,8 @@ struct U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B  : pu
 	int32_t ___U3CU3E1__state_0;
 	// System.Object PlayerController/<delayVoteClear>d__58::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
+	// PlayerController PlayerController/<delayVoteClear>d__58::<>4__this
+	PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95* ___U3CU3E4__this_2;
 };
 
 // UnityEngine.Networking.PlayerConnection.PlayerEditorConnectionEvents/MessageTypeSubscribers
@@ -26484,9 +26488,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4441[15] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4442[9] = 
 {
 	static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB_StaticFields, ___Instance_5)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomNameInput_6)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___errorText_7)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomNameText_8)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomListContent_9)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomListPrefab_10)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___playerListContent_11)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___playerListPrefab_12)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___startGameButton_13)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4443[2] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4443[3] = 
 {
-	static_cast<int32_t>(offsetof(U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B, ___U3CU3E2__current_1)),};
+	static_cast<int32_t>(offsetof(U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B, ___U3CU3E2__current_1)),static_cast<int32_t>(offsetof(U3CdelayVoteClearU3Ed__58_t8210220F913EEED146405CDB475AD040C1FD6B9B, ___U3CU3E4__this_2)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4444[2] = 
 {
 	static_cast<int32_t>(offsetof(U3CdelayNoVoteClearU3Ed__59_t5759B304B59AAFAD6CA020B915AA02189D898784, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CdelayNoVoteClearU3Ed__59_t5759B304B59AAFAD6CA020B915AA02189D898784, ___U3CU3E2__current_1)),};
