@@ -259,11 +259,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    #region networking
+
     //just in case
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         observer = newMasterClient;
     }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        Destroy(RoomManager.Instance.gameObject);
+        PhotonNetwork.LoadLevel(0);
+    }
+
+    #endregion
 
     void createList()
     {
