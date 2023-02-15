@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [Header("Choose Mode Phase")]
     public GameObject modeScreen;
     public GameObject screenCustomOrRandom;
+
+    public GameObject normalWord;
+    [SerializeField] TMP_InputField normalWordInput;
+    public GameObject spyWord;
+    [SerializeField] TMP_InputField spyWordInput;
     public GameObject screenCustomInput;
+
     public GameObject screenInOutGame;
     public TextMeshProUGUI superNounText;
     [SerializeField] int mode;
@@ -64,6 +70,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         modeScreen.SetActive(false);
         screenCustomOrRandom.SetActive(false);
         screenCustomInput.SetActive(false);
+        normalWord.SetActive(false);
+        spyWord.SetActive(false);
         screenInOutGame.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
@@ -155,14 +163,47 @@ public class PlayerController : MonoBehaviourPunCallbacks
         GameManager.Instance.updateSuperNoun();
     }
 
+    //only differ in mode number
     public void startGameOneWord()
     {
-        GameManager.Instance.startGame(1);
+        mode = 1;
+        modeScreen.SetActive(false);
+        screenCustomOrRandom.SetActive(true);
     }
 
     public void startGameTwoWords()
     {
-        GameManager.Instance.startGame(2);
+        mode = 2;
+        modeScreen.SetActive(false);
+        screenCustomOrRandom.SetActive(true);
+    }
+
+    //screen changes
+    public void randomWord()
+    {
+        screenCustomOrRandom.SetActive(false);
+        screenInOutGame.SetActive(true);
+    }
+
+    public void customWord()
+    {
+        screenCustomOrRandom.SetActive(false);
+        screenCustomInput.SetActive(true);
+        normalWord.SetActive(true);
+        if (mode == 2)
+        {
+            spyWord.SetActive(true);
+        }
+    }
+
+    public void startGameCustomWord()
+    {
+        screenCustomInput.SetActive(false);
+        normalWord.SetActive(false);
+        spyWord.SetActive(false);
+        GameManager.Instance.startGame(mode, normalWordInput.text, spyWordInput.text);
+        normalWordInput.text = "";
+        spyWordInput.text = "";
     }
 
     //Third choice - Very Random
@@ -236,6 +277,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         modeScreen.SetActive(false);
         screenCustomOrRandom.SetActive(false);
         screenCustomInput.SetActive(false);
+        normalWord.SetActive(false);
+        spyWord.SetActive(false);
         screenInOutGame.SetActive(false);
 
         //restart button only visible to masterclient

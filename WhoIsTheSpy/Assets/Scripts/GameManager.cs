@@ -161,6 +161,36 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    //custom input
+    public void startGame(int mode, string normalPhrase, string spyPhrase)
+    {
+        //pick spy
+        Photon.Realtime.Player spy;
+        do
+        {
+            spy = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)];
+        } while (spy == observer);
+
+        PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spy);
+
+        //choose spyPhrase base on mode
+        if (mode == 1)
+        {
+            spyPhrase = "???";
+        }
+
+        //assign phrase
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            //exclude observer
+            if (cur.PV.Owner != observer)
+            {
+                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
+                cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
+            }
+        }
+    }
+
     [PunRPC]
     public void assignSpy(Photon.Realtime.Player newSpy)
     {
