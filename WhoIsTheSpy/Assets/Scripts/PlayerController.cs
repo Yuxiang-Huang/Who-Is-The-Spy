@@ -18,10 +18,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public TextMeshProUGUI readyTextAll;
 
     [Header("Choose Mode Phase")]
-    public Button modeOneWord;
-    public Button modeTwoWords;
-    public Button superNoun;
+    public GameObject modeScreen;
+    public GameObject screenCustomOrRandom;
+    public GameObject screenCustomInput;
+    public GameObject screenInOutGame;
     public TextMeshProUGUI superNounText;
+    [SerializeField] int mode;
 
     [Header("First Voting Phase")]
     public Button votingBtn;
@@ -58,9 +60,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         votingBtn.gameObject.SetActive(false);
         displayPhrase.gameObject.SetActive(false);
         readyTextAll.gameObject.SetActive(false);
-        modeOneWord.gameObject.SetActive(false);
-        modeTwoWords.gameObject.SetActive(false);
-        superNoun.gameObject.SetActive(false);
+
+        modeScreen.SetActive(false);
+        screenCustomOrRandom.SetActive(false);
+        screenCustomInput.SetActive(false);
+        screenInOutGame.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
@@ -133,9 +137,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //observer responsible for choosing mode
         if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer && PV.IsMine)
         {
-            modeOneWord.gameObject.SetActive(true);
-            modeTwoWords.gameObject.SetActive(true);
-            superNoun.gameObject.SetActive(true);
+            modeScreen.SetActive(true);
         }
     }
 
@@ -162,6 +164,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         GameManager.Instance.startGame(2);
     }
+
+    //Third choice - Very Random
+    public void startGameRandom()
+    {
+        mode = Random.Range(1, 3);
+        screenInOutGame.SetActive(true);
+    }
+
+    public void startInGame()
+    {
+        GameManager.Instance.startGame(mode);
+    }
+
+    public void startOutGame()
+    {
+        GameManager.Instance.startGame(mode);
+    }
+
 
     #endregion
 
@@ -200,9 +220,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         readyTextAll.gameObject.SetActive(false);
 
-        modeOneWord.gameObject.SetActive(false);
-        modeTwoWords.gameObject.SetActive(false);
-        superNoun.gameObject.SetActive(false);
+        modeScreen.SetActive(false);
+        screenCustomOrRandom.SetActive(false);
+        screenCustomInput.SetActive(false);
+        screenInOutGame.SetActive(false);
 
         //restart button only visible to observer
         if (PhotonNetwork.IsMasterClient && PV.IsMine)

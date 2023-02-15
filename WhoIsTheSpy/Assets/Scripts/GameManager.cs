@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Photon.Realtime.Player observer;
 
+    //modes
     public bool superNoun;
 
     void Awake()
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         createList();
         observer = PhotonNetwork.MasterClient;
     }
+
+    #region restart
 
     public void forceRestart()
     {
@@ -61,7 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
         }
 
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", false);
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
     }
 
     [PunRPC]
@@ -69,6 +72,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         numPlayerReady = 0;
     }
+
+    #endregion
 
     public void checkReady()
     {
@@ -92,6 +97,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", false);
         }
     }
+
+    #region mode
 
     [PunRPC]
     public void updateSuperNoun()
@@ -144,6 +151,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         spy = PhotonNetwork.PlayerList[spyNum];
     }
+
+    #endregion
 
     public void checkVotes1()
     {
