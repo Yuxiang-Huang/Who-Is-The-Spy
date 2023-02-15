@@ -308,7 +308,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator CountDown()
+    public IEnumerator CountDown()
     {
         yield return new WaitForSeconds(2f);
 
@@ -339,6 +339,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         modeChooser = newMasterClient;
+
+        //restart button
+        foreach (PlayerController cur in allPlayers)
+        {
+            cur.PV.RPC(nameof(cur.restartButton), RpcTarget.AllBuffered);
+        }
     }
 
     public void LeaveRoom()

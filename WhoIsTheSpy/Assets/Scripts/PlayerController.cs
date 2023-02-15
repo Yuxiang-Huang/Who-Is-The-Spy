@@ -478,8 +478,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void voteMe()
     {
         //ask the owner of this button so the list can be created
-        Debug.Log(PV.Owner.NickName);
-
         PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, PV.Owner, PhotonNetwork.NickName);
 
         //clear buttons
@@ -494,6 +492,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void castVoteSpy(Photon.Realtime.Player votedPlayer, string voter)
     {
+        //weird error
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer) return;
+
         //vote
         GameManager.Instance.spyVotes[votedPlayer]++;
 
@@ -552,7 +553,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (countDown)
         {
-            GameManager.Instance.curCoroutine = GameManager.Instance.StartCoroutine("CountDown");
+            GameManager.Instance.curCoroutine = GameManager.Instance.StartCoroutine(nameof(GameManager.Instance.CountDown));
+        }
+    }
+
+    //just in case master leave
+    [PunRPC]
+    public void restartButton()
+    {
+        if (PhotonNetwork.IsMasterClient && PV.IsMine){
+            restartBtn.gameObject.SetActive(true);
         }
     }
 }
