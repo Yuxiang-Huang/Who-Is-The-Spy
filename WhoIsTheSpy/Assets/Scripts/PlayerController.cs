@@ -164,6 +164,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
+            Debug.Log(cur);
+
             //exclude self
             if (cur != this)
             {

@@ -338,9 +338,25 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
+        //remove player
+        PV.RPC(nameof(removePlayer), RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
+
         PhotonNetwork.LeaveRoom();
         Destroy(RoomManager.Instance.gameObject);
         PhotonNetwork.LoadLevel(0);
+    }
+
+    [PunRPC]
+    void removePlayer(Photon.Realtime.Player player)
+    {
+        for (int i = allPlayers.Count - 1; i >= 0; i--)
+        {
+            PlayerController cur = allPlayers[i];
+            if (cur.PV.Owner == player)
+            {
+                allPlayers.Remove(cur);
+            }
+        }
     }
 
     #endregion

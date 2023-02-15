@@ -14,6 +14,7 @@
 			<method name="disagree"/>
 			<method name="forceRestart"/>
 			<method name="getReady"/>
+			<method name="passModeChooserClick"/>
 			<method name="randomWord"/>
 			<method name="startGameCustomWord"/>
 			<method name="startGameOneWord"/>
@@ -24,6 +25,7 @@
 			<method name="updateSuperNoun"/>
 			<method name="vote1"/>
 			<method name="voteMe"/>
+			<method name="wantToPass"/>
 		</type>
 		<type fullname="PlayerNameManager">
 			<method name="onNameInputValueChanged"/>
