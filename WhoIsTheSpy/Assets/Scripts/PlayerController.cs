@@ -155,6 +155,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             modeScreen.SetActive(true);
             passModeChooserBtn.SetActive(true);
+            if (GameManager.Instance.superNoun)
+            {
+                superNounText.text = "Super Noun: On";
+            }
+            else
+            {
+                superNounText.text = "Super Noun: Off";
+            }
         }
     }
 

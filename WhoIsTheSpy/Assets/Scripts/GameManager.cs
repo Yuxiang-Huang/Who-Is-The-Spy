@@ -94,8 +94,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region mode
 
-    [PunRPC]
+    
     public void updateSuperNoun()
+    {
+        PV.RPC(nameof(updateSuperNoun_RPC), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void updateSuperNoun_RPC()
     {
         superNoun = !superNoun;
     }
