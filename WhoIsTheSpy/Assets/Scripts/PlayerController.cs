@@ -278,6 +278,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         votingBtn.gameObject.SetActive(false);
         displayPhrase.gameObject.SetActive(false);
 
+        //observer can see all words
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer)
+        {
+            displayPhrase.gameObject.SetActive(true);
+        }
+
         readyTextAll.gameObject.SetActive(false);
 
         modeScreen.SetActive(false);
@@ -471,6 +477,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void voteMe()
     {
+        //ask the owner of this button so the list can be created
+        Debug.Log(PV.Owner.NickName);
+
         PV.RPC(nameof(castVoteSpy), RpcTarget.AllBuffered, PV.Owner, PhotonNetwork.NickName);
 
         //clear buttons

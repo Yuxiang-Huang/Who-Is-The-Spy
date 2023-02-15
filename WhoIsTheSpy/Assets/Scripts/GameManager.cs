@@ -161,12 +161,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
             }
         }
-
-        //observer can see all words but no voting
-        foreach (PlayerController cur in GameManager.Instance.allPlayers)
-        {
-            cur.displayPhrase.gameObject.SetActive(true);
-        }
     }
 
     //custom input
