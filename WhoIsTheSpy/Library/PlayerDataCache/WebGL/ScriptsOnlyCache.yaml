@@ -124,6 +124,18 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: PlayerController
     methodName: voteMe
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: forceRestart
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: startGameOneWord
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: startGameTwoWords
+  - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: updateSuperNoun
   sceneClasses:
     Assets/Scenes/Game.unity:
     - Class: 1
@@ -616,7 +628,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: e16e56c58477a713e29e4f2c53920b03
+      Hash: f61af3ca01b521179fcfdea15528fc1d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -946,12 +958,6 @@ ScriptsOnlyBuild:
     className: PunTurnManager
   - hash:
       serializedVersion: 2
-      Hash: 0ca057b1da83e423792c3186f46e57ea
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Vote
-  - hash:
-      serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -994,7 +1000,7 @@ ScriptsOnlyBuild:
     className: PhotonTeamsManager
   - hash:
       serializedVersion: 2
-      Hash: 6772dc043ea2616d13290dc0b36b45af
+      Hash: 81aaa96b005b389658eeb46084cbaa36
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
