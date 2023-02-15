@@ -20,6 +20,8 @@ public class NetworkManager: MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject startGameButton;
 
+    private static Dictionary<string, RoomInfo> fullRoomList = new Dictionary<string, RoomInfo>();
+
     void Awake()
     {
         Instance = this;
@@ -105,6 +107,7 @@ public class NetworkManager: MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        //fullRoomList.Clear();
         ScreenManager.Instance.DisplayScreen("Main");
     }
 
@@ -119,10 +122,19 @@ public class NetworkManager: MonoBehaviourPunCallbacks
         //make room
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (! roomList[i].RemovedFromList)
+            RoomInfo info = roomList[i];
+            if (info.RemovedFromList)
             {
-                Instantiate(roomListPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
+                fullRoomList.Remove(info.Name);
             }
+            else
+            {
+                fullRoomList[info.Name] = info;
+            }
+        }
+        foreach (KeyValuePair<string, RoomInfo> entry in fullRoomList)
+        {
+            Instantiate(roomListPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(fullRoomList[entry.Key]);
         }
     }
 
