@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
         }
 
-        PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, GameManager.Instance.modeChooser.NickName + " is choosing mode!", true);
     }
 
     #region mode

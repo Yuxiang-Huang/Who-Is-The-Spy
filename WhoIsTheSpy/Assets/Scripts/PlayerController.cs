@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [Header("Choose Mode Phase")]
     public GameObject modeScreen;
 
+    public GameObject passModeChooserBtn;
     public GameObject passModeChooser;
     public TextMeshProUGUI passModeChooserText;
 
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         spyWord.SetActive(false);
         screenInOutGame.SetActive(false);
         passModeChooser.SetActive(false);
+        passModeChooserBtn.SetActive(false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
@@ -152,8 +154,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer == GameManager.Instance.modeChooser && PV.IsMine)
         {
             modeScreen.SetActive(true);
+            passModeChooserBtn.SetActive(true);
+        }
+    }
 
-            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+    public void wantToPass()
+    {
+        passModeChooserBtn.SetActive(false);
+
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            //exclude self
+            if (cur != this)
             {
                 cur.passModeChooser.SetActive(true);
             }
@@ -163,8 +175,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //pass mode chooser
     public void passModeChooserClick()
     {
+        PV.RPC(nameof(message), RpcTarget.AllBuffered, PV.Owner.NickName + " is choosing mode!", true);
+
         PV.RPC(nameof(updateModeChooser), RpcTarget.AllBuffered, PV.Owner);
         PV.RPC(nameof(chooseMode), PV.Owner);
+
+        //clear
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.modeScreen.SetActive(false);
+            cur.passModeChooser.SetActive(false);
+        }
     }
 
     [PunRPC]
@@ -209,7 +230,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         screenCustomOrRandom.SetActive(false);
         screenInOutGame.SetActive(true);
-        passModeOff();
     }
 
     void passModeOff()
@@ -218,6 +238,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             cur.passModeChooser.SetActive(false);
         }
+
+        passModeChooserBtn.SetActive(false);
     }
 
     public void customWord()
@@ -250,6 +272,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         mode = Random.Range(1, 3);
         modeScreen.SetActive(false);
         screenInOutGame.SetActive(true);
+
+        passModeOff();
     }
 
     //in game or out game option
@@ -314,6 +338,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         displayPhrase.gameObject.SetActive(false);
 
         passModeChooser.SetActive(false);
+        passModeChooserBtn.SetActive(false);
 
         //observer can see all words
         if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer)
