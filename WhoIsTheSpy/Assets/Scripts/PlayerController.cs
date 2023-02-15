@@ -328,7 +328,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(votingButtons1), RpcTarget.AllBuffered);
+            //exclude observer from voting
+            if (cur.PV.Owner != GameManager.Instance.observer)
+            {
+                cur.PV.RPC(nameof(votingButtons1), RpcTarget.AllBuffered);
+            }
         }
 
         PV.RPC(nameof(message), RpcTarget.AllBuffered, PhotonNetwork.NickName + " want to start voting!", true);
@@ -458,8 +462,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void votingButtonsSpy()
     {
-        //able to vote other people
-        //if (PV.IsMine) return;
+        //don't vote observer and observer can't vote
+        if (PV.Owner == GameManager.Instance.observer ||
+            PhotonNetwork.LocalPlayer == GameManager.Instance.observer) return;
+
         voteMeBtn.gameObject.SetActive(true);
     }
 

@@ -123,7 +123,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         //pick spy
         Photon.Realtime.Player spy;
-        do {
+        do
+        {
             spy = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)];
         } while (spy == observer);
 
@@ -152,14 +153,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         //assign phrase
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
+            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
+
             //don't assign to observer
             if (cur.PV.Owner != observer)
             {
-                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
                 cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
             }
+        }
 
-            //observer can see all words but no voting
+        //observer can see all words but no voting
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
             cur.displayPhrase.gameObject.SetActive(true);
         }
     }
@@ -221,7 +226,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 //ask every owner
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
-                    cur.PV.RPC(nameof(cur.startVotingSpy), cur.PV.Owner);
+                    //exclude observer from voting
+                    if (cur.PV.Owner != GameManager.Instance.observer)
+                    {
+                        cur.PV.RPC(nameof(cur.startVotingSpy), cur.PV.Owner);
+                    }
+
                     cur.StartCoroutine(nameof(cur.delayVoteClear));
                 }
             }
