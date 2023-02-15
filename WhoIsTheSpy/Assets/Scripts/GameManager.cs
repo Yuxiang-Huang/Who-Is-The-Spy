@@ -246,6 +246,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         int totalVote = 0;
 
         int maxVote = 0;
+
+        bool tie = false;
+
         Photon.Realtime.Player voted = null;
 
         foreach (var (key, value) in GameManager.Instance.spyVotes)
@@ -255,6 +258,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 maxVote = value;
                 voted = key;
+                tie = false;
+            } else if (value == maxVote)
+            {
+                tie = true;
             }
         }
 
@@ -268,31 +275,45 @@ public class GameManager : MonoBehaviourPunCallbacks
         //reveal spy
         if (totalVote == neededVotes)
         {
-            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            if (tie)
             {
-                cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
-            }
-
-            //find winner
-            string result = voted.NickName + " is voted as spy. Spy ";
-
-            if (spy == voted)
-            {
-                result += "lose!";
+                //reset
+                foreach (PlayerController cur in GameManager.Instance.allPlayers)
+                {
+                    if (cur.PV.Owner != observer)
+                    {
+                        cur.PV.RPC(nameof(cur.tiedVoteReset), RpcTarget.AllBuffered);
+                    }
+                }
             }
             else
             {
-                result += "won!";
-            }
+                foreach (PlayerController cur in GameManager.Instance.allPlayers)
+                {
+                    cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
+                }
 
-            result += " --- Restart?";
+                //find winner
+                string result = voted.NickName + " is voted as spy. Spy ";
 
-            PV.RPC(nameof(message), RpcTarget.AllBuffered, result, false);
+                if (spy == voted)
+                {
+                    result += "lose!";
+                }
+                else
+                {
+                    result += "won!";
+                }
 
-            //restart?
-            foreach (PlayerController cur in GameManager.Instance.allPlayers)
-            {
-                cur.PV.RPC(nameof(cur.restart), RpcTarget.AllBuffered);
+                result += " --- Restart?";
+
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, result, false);
+
+                //restart?
+                foreach (PlayerController cur in GameManager.Instance.allPlayers)
+                {
+                    cur.PV.RPC(nameof(cur.restart), RpcTarget.AllBuffered);
+                }
             }
         }
     }

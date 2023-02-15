@@ -462,6 +462,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     #region clear
     public IEnumerator delayVoteClear()
     {
+        displayPhrase.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(1.5f);
 
         //ask all players to clear
@@ -488,7 +490,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //hide the images for start voting
         agreeImage.gameObject.SetActive(false);
         disagreeImage.gameObject.SetActive(false);
-        displayPhrase.gameObject.SetActive(false);
 
         //reset
         GameManager.Instance.agreeVotes = 0;
@@ -576,6 +577,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
         foreach (Transform transform in votingList)
         {
             Destroy(transform.gameObject);
+        }
+    }
+
+    [PunRPC]
+    public void tiedVoteReset()
+    {
+        foreach (Transform transform in votingList)
+        {
+            Destroy(transform.gameObject);
+        }
+
+        if (PV.IsMine)
+        {
+            votingBtn.gameObject.SetActive(true);
+            displayPhrase.gameObject.SetActive(true);
         }
     }
 
