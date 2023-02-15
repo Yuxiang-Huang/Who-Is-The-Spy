@@ -169,18 +169,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void startGameRandom()
     {
         mode = Random.Range(1, 3);
+        modeScreen.SetActive(false);
         screenInOutGame.SetActive(true);
     }
 
     //in game or out game option
     public void startInGame()
     {
+        screenInOutGame.SetActive(false);
+
         GameManager.Instance.startGame(mode);
     }
 
     public void startOutGame()
     {
         PV.RPC(nameof(updateObserver), RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
+
+        screenInOutGame.SetActive(false);
 
         GameManager.Instance.startGame(mode);
     }

@@ -124,7 +124,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: startGameTwoWords
+        m_MethodName: startOutGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -735,9 +735,9 @@ MonoBehaviour:
   readyText: {fileID: 4590256027074585537}
   readyTextAll: {fileID: 5192748098401772874}
   modeScreen: {fileID: 1578683375750591566}
-  screenCustomOrRandom: {fileID: 8379916130757924105}
-  screenCustomInput: {fileID: 5005905242018299093}
-  screenInOutGame: {fileID: 7427642763256873484}
+  screenCustomOrRandom: {fileID: 5005905242018299093}
+  screenCustomInput: {fileID: 7427642763256873484}
+  screenInOutGame: {fileID: 8379916130757924105}
   superNounText: {fileID: 8531008577567446847}
   mode: 0
   votingBtn: {fileID: 5383752272094184001}
@@ -1645,7 +1645,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: startGameOneWord
+        m_MethodName: startInGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2796,7 +2796,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5975330776842844921}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: startGameTwoWords
+        m_MethodName: startGameRandom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
