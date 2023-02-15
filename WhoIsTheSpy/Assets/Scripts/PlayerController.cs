@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             readyTextAll.gameObject.SetActive(true);
         }
 
-        //restart button only visible to observer
-        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer && PV.IsMine)
+        //restart button only visible to masterclient
+        if (PhotonNetwork.IsMasterClient && PV.IsMine)
         {
             restartBtn.gameObject.SetActive(true);
         }
@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void chooseMode()
     {
-        //observer responsible for choosing mode
-        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer && PV.IsMine)
+        //modeChooser responsible for choosing mode
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.modeChooser && PV.IsMine)
         {
             modeScreen.SetActive(true);
         }
@@ -172,6 +172,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         screenInOutGame.SetActive(true);
     }
 
+    //in game or out game option
     public void startInGame()
     {
         GameManager.Instance.startGame(mode);
@@ -179,9 +180,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void startOutGame()
     {
+        PV.RPC(nameof(updateObserver), RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
+
         GameManager.Instance.startGame(mode);
     }
 
+    [PunRPC]
+    void updateObserver(Photon.Realtime.Player player)
+    {
+        GameManager.Instance.observer = player;
+    }
 
     #endregion
 
@@ -225,7 +233,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         screenCustomInput.SetActive(false);
         screenInOutGame.SetActive(false);
 
-        //restart button only visible to observer
+        //restart button only visible to masterclient
         if (PhotonNetwork.IsMasterClient && PV.IsMine)
         {
             restartBtn.gameObject.SetActive(true);

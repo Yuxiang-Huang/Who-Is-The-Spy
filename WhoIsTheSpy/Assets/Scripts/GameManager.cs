@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Coroutine curCoroutine;
 
+    public Photon.Realtime.Player modeChooser;
     public Photon.Realtime.Player observer;
 
     //modes
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Instance = this;
         PV = GetComponent<PhotonView>();
         createList();
-        observer = PhotonNetwork.MasterClient;
+        modeChooser = PhotonNetwork.MasterClient;
     }
 
     #region restart
@@ -49,6 +50,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void forceRestart()
     {
         //clear things from last game
+        observer = null;
+
         PV.RPC(nameof(restart), RpcTarget.AllBuffered);
 
         PV.RPC(nameof(clearVote1), RpcTarget.AllBuffered);
@@ -80,6 +83,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         //everyone is ready, start game
         if (numPlayerReady == PhotonNetwork.CurrentRoom.PlayerCount)
         {
+            observer = null;
+
             //clear things from last game
             PV.RPC(nameof(restart), RpcTarget.AllBuffered);
 
@@ -94,7 +99,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 cur.PV.RPC(nameof(cur.chooseMode), RpcTarget.AllBuffered);
             }
 
-            PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", false);
+            PV.RPC(nameof(message), RpcTarget.AllBuffered, "Choose Mode!", true);
         }
     }
 
@@ -108,6 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void startGame(int mode)
     {
+        //choose wordbank
         List<String> wordBank = allPhrases;
 
         if (superNoun)
@@ -116,9 +122,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         //pick spy
-        int spyNum = Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount);
-        PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spyNum);
+        Photon.Realtime.Player spy;
+        do {
+            spy = PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)];
+        } while (spy == observer);
 
+        PV.RPC(nameof(assignSpy), RpcTarget.AllBuffered, spy);
+
+        //phrase
         string normalPhrase = wordBank[Random.Range(0, wordBank.Count)];
         string spyPhrase = "";
 
@@ -141,15 +152,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         //assign phrase
         foreach (PlayerController cur in GameManager.Instance.allPlayers)
         {
-            cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
-            cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
+            //exclude observer
+            if (cur.PV.Owner != observer)
+            {
+                cur.PV.RPC(nameof(cur.assignPhrase), cur.PV.Owner, normalPhrase, spyPhrase, spy);
+                cur.PV.RPC(nameof(cur.RevealVotingBtn), cur.PV.Owner);
+            }
         }
     }
 
     [PunRPC]
-    public void assignSpy(int spyNum)
+    public void assignSpy(Photon.Realtime.Player newSpy)
     {
-        spy = PhotonNetwork.PlayerList[spyNum];
+        spy = newSpy;
     }
 
     #endregion
@@ -273,7 +288,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     //just in case
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        observer = newMasterClient;
+        modeChooser = newMasterClient;
     }
 
     public void LeaveRoom()
