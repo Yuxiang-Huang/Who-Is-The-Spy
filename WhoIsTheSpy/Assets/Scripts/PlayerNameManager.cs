@@ -19,9 +19,17 @@ public class PlayerNameManager : MonoBehaviour
 
             nameInput.text = "" + consonant(vowel) + vowel[Random.Range(0, vowel.Length)] + consonant(vowel);
 
-
             onNameInputValueChanged();
         }
+    }
+
+    public void randomName()
+    {
+        char[] vowel = new char[] { 'a', 'e', 'i', 'o', 'u' };
+
+        nameInput.text = "" + consonant(vowel) + vowel[Random.Range(0, vowel.Length)] + consonant(vowel);
+
+        onNameInputValueChanged();
     }
 
     public void onNameInputValueChanged()
