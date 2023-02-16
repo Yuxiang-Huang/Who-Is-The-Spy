@@ -89,6 +89,9 @@ ScriptsOnlyBuild:
     fullTypeName: NetworkManager
     methodName: LeaveRoom
   - assembly: Assembly-CSharp
+    fullTypeName: PlayerNameManager
+    methodName: randomName
+  - assembly: Assembly-CSharp
     fullTypeName: ScreenManager
     methodName: DisplayScreen
   - assembly: Assembly-CSharp
@@ -188,25 +191,25 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1538}
     - Class: 114
-      Script: {instanceID: 1738}
+      Script: {instanceID: 1736}
     - Class: 114
-      Script: {instanceID: 1798}
+      Script: {instanceID: 1796}
     - Class: 114
-      Script: {instanceID: 2346}
+      Script: {instanceID: 2344}
     - Class: 114
-      Script: {instanceID: 2454}
+      Script: {instanceID: 2452}
     - Class: 114
-      Script: {instanceID: 2496}
+      Script: {instanceID: 2494}
     - Class: 114
-      Script: {instanceID: 2616}
+      Script: {instanceID: 2614}
     - Class: 114
-      Script: {instanceID: 2790}
+      Script: {instanceID: 2788}
     - Class: 114
-      Script: {instanceID: 2798}
+      Script: {instanceID: 2796}
     - Class: 114
-      Script: {instanceID: 2878}
+      Script: {instanceID: 2876}
     - Class: 114
-      Script: {instanceID: 4462}
+      Script: {instanceID: 4460}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -251,55 +254,55 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1540}
     - Class: 114
-      Script: {instanceID: 1610}
+      Script: {instanceID: 1608}
     - Class: 114
-      Script: {instanceID: 1694}
+      Script: {instanceID: 1692}
     - Class: 114
-      Script: {instanceID: 1798}
+      Script: {instanceID: 1796}
     - Class: 114
-      Script: {instanceID: 2014}
+      Script: {instanceID: 2012}
     - Class: 114
-      Script: {instanceID: 2052}
+      Script: {instanceID: 2050}
     - Class: 114
-      Script: {instanceID: 2346}
+      Script: {instanceID: 2344}
     - Class: 114
-      Script: {instanceID: 2410}
+      Script: {instanceID: 2408}
     - Class: 114
-      Script: {instanceID: 2454}
+      Script: {instanceID: 2452}
     - Class: 114
-      Script: {instanceID: 2496}
+      Script: {instanceID: 2494}
     - Class: 114
-      Script: {instanceID: 2598}
+      Script: {instanceID: 2596}
     - Class: 114
-      Script: {instanceID: 2616}
+      Script: {instanceID: 2614}
     - Class: 114
-      Script: {instanceID: 2766}
+      Script: {instanceID: 2764}
     - Class: 114
-      Script: {instanceID: 2790}
+      Script: {instanceID: 2788}
     - Class: 114
-      Script: {instanceID: 2798}
+      Script: {instanceID: 2796}
     - Class: 114
-      Script: {instanceID: 2878}
+      Script: {instanceID: 2876}
     - Class: 114
-      Script: {instanceID: 2896}
+      Script: {instanceID: 2894}
     - Class: 114
-      Script: {instanceID: 3130}
+      Script: {instanceID: 3128}
     - Class: 114
-      Script: {instanceID: 3438}
+      Script: {instanceID: 3436}
     - Class: 114
-      Script: {instanceID: 3786}
+      Script: {instanceID: 3784}
     - Class: 114
-      Script: {instanceID: 3790}
+      Script: {instanceID: 3788}
     - Class: 114
-      Script: {instanceID: 3802}
+      Script: {instanceID: 3800}
     - Class: 114
-      Script: {instanceID: 4048}
+      Script: {instanceID: 4046}
     - Class: 114
-      Script: {instanceID: 4054}
+      Script: {instanceID: 4052}
     - Class: 114
-      Script: {instanceID: 4168}
+      Script: {instanceID: 4166}
     - Class: 114
-      Script: {instanceID: 4406}
+      Script: {instanceID: 4404}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1041,4 +1044,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/Game.unity
-  playerPath: /Users/yuxianghuang/Who-Is-The-Spy-Builds/Version5
+  playerPath: /Users/yuxianghuang/Who-Is-The-Spy-Builds/Version6
