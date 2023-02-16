@@ -107,7 +107,6 @@ public class NetworkManager: MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        //fullRoomList.Clear();
         ScreenManager.Instance.DisplayScreen("Main");
     }
 
@@ -123,6 +122,8 @@ public class NetworkManager: MonoBehaviourPunCallbacks
         for (int i = 0; i < roomList.Count; i++)
         {
             RoomInfo info = roomList[i];
+            Debug.Log(info.Name + ": " + info.RemovedFromList);
+
             if (info.RemovedFromList)
             {
                 fullRoomList.Remove(info.Name);
