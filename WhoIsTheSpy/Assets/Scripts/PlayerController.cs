@@ -12,9 +12,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     [Header("Ready Phase")]
     public PhotonView PV;
-    bool ready;
     public Button readyBtn;
-    public TextMeshProUGUI readyText;
     public TextMeshProUGUI readyTextAll;
 
     [Header("Choose Mode Phase")]
@@ -112,20 +110,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void getReady_RPC()
     {
-        //update ready, show phrase, and check if can start game
-        ready = !ready;
-        if (ready)
-        {
-            GameManager.Instance.numPlayerReady++;
-            readyText.text = "Ready";
-            readyTextAll.text = "Ready";
-        }
-        else
-        {
-            GameManager.Instance.numPlayerReady--;
-            readyText.text = "Not Ready";
-            readyTextAll.text = "Not Ready";
-        }
+        //update ready, show phrase, set button inactive, and check if can start game
+        GameManager.Instance.numPlayerReady++;
+        readyTextAll.text = "Ready";
+        readyTextAll.gameObject.SetActive(true);
+        readyBtn.gameObject.SetActive(false);
 
         if (PV.IsMine)
         {
@@ -610,14 +599,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void restart()
     {
-        ready = false;
-        readyText.text = "Not Ready";
         readyTextAll.text = "Not Ready";
 
         //ready button visible if owner and readyTextAll only shown if not owner
         if (PV.IsMine)
         {
             readyBtn.gameObject.SetActive(true);
+            readyTextAll.gameObject.SetActive(false);
         }
         else
         {

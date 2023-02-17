@@ -726,7 +726,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   readyBtn: {fileID: 7721985413794324787}
-  readyText: {fileID: 4590256027074585537}
   readyTextAll: {fileID: 5192748098401772874}
   modeScreen: {fileID: 4443546910720593664}
   passModeChooserBtn: {fileID: 5684445640272094428}
@@ -3631,7 +3630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Not Ready
+  m_text: Get Ready
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
