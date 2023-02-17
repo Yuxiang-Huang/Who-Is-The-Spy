@@ -74,18 +74,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             PV.RPC(nameof(updateName), RpcTarget.AllBuffered, PhotonNetwork.NickName);
         }
         //everything off first
-        //votingBtn.gameObject.SetActive(false);
-        //displayPhrase.gameObject.SetActive(false);
-        //readyTextAll.gameObject.SetActive(false);
-
-        //modeScreen.SetActive(false);
-        //screenCustomOrRandom.SetActive(false);
-        //screenCustomInput.SetActive(false);
-        //normalWord.SetActive(false);
-        //spyWord.SetActive(false);
-        //screenInOutGame.SetActive(false);
-        //passModeChooser.SetActive(false);
-        //passModeChooserBtn.SetActive(false);
         updatePhrase("", "", false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
@@ -100,16 +88,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             readyBtn.gameObject.SetActive(false);
             readyTextAll.gameObject.SetActive(true);
         }
-
-        ////restart button only visible to masterclient
-        //if (PhotonNetwork.IsMasterClient && PV.IsMine)
-        //{
-        //    restartBtn.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    restartBtn.gameObject.SetActive(false);
-        //}
     }
 
     #region readyPhase
@@ -346,12 +324,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         readyTextAll.gameObject.SetActive(false);
 
+        //mode
         modeScreen.SetActive(false);
         screenCustomOrRandom.SetActive(false);
         screenCustomInput.SetActive(false);
         normalWord.SetActive(false);
         spyWord.SetActive(false);
         screenInOutGame.SetActive(false);
+
+        //voting result
+        voteResultScreen.SetActive(false);
+        viewVotesButton.SetActive(false);
+        gameScreen.SetActive(true);
 
         //don't assign to observer
         if (PV.Owner == GameManager.Instance.observer) return;
@@ -538,6 +522,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
             GameManager.Instance.spyVotes[player] = 0;
         }
 
+        //set view vote result button false
+        viewVotesButton.SetActive(false);
+
         PV.RPC(nameof(votingButtonsSpy), RpcTarget.AllBuffered);
     }
 
@@ -592,17 +579,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void tiedVoteReset()
+    public void voteSpyReset(bool gameEnded)
     {
+        //transfer votes
         foreach (Transform transform in votingList)
         {
+            GameObject cur = Instantiate(votingItem, votingList);
+            cur.GetComponent<TextMeshProUGUI>().text = transform.GetComponent<Text>().text;
+
             Destroy(transform.gameObject);
         }
 
         if (PV.IsMine)
         {
-            votingBtn.gameObject.SetActive(true);
+            votingBtn.gameObject.SetActive(!gameEnded);
         }
+
+        viewVotesButton.SetActive(true);
     }
 
     [PunRPC]

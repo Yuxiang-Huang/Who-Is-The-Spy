@@ -283,27 +283,29 @@ public class GameManager : MonoBehaviourPunCallbacks
         //reveal spy
         if (totalVote == neededVotes)
         {
+            //reset votes in both cases
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                if (cur.PV.Owner != observer)
+                {
+                    cur.PV.RPC(nameof(cur.voteSpyReset), RpcTarget.AllBuffered);
+                }
+            }
+
+            //tied scenario
             if (tie)
             {
                 PV.RPC(nameof(message), RpcTarget.AllBuffered, "Votes Tied!", true);
-
-                //reset
-                foreach (PlayerController cur in GameManager.Instance.allPlayers)
-                {
-                    if (cur.PV.Owner != observer)
-                    {
-                        cur.PV.RPC(nameof(cur.tiedVoteReset), RpcTarget.AllBuffered);
-                    }
-                }
             }
             else
             {
+                //reveal all phrases
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
                     cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
                 }
 
-                //find winner
+                //message
                 string result = voted.NickName + " is voted as spy. Spy ";
 
                 if (spy == voted)
