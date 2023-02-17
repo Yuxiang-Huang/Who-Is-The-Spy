@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Photon.Realtime.Player modeChooser;
     public Photon.Realtime.Player observer;
 
-    //modes
     public bool superNoun;
+
+    public int numOfGuessed = 0;
 
     void Awake()
     {
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void restart()
     {
         numPlayerReady = 0;
+        numOfGuessed = 0;
     }
 
     #endregion
@@ -302,36 +304,45 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                //reveal all phrases
+                //start guess word
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
-                    cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
+                    cur.PV.RPC(nameof(cur.guessWord), RpcTarget.AllBuffered);
                 }
 
                 //message
-                string result = voted.NickName + " is voted as spy. Spy ";
-
-                if (spy == voted)
-                {
-                    result += "lose!";
-                }
-                else
-                {
-                    result += "won!";
-                }
-
-                result += " --- Restart?";
-
-                PV.RPC(nameof(message), RpcTarget.AllBuffered, result, false);
-
-                //restart?
-                foreach (PlayerController cur in GameManager.Instance.allPlayers)
-                {
-                    cur.PV.RPC(nameof(cur.restart), RpcTarget.AllBuffered);
-                }
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, voted.NickName + " is voted as spy! Start guessing word.", true);
             }
         }
     }
+
+    public void checkGuessWord()
+    {
+        int totalVote = PhotonNetwork.CurrentRoom.PlayerCount;
+        if (observer != null)
+        {
+            totalVote--;
+        }
+
+        //if everyone voted
+        if (numOfGuessed == totalVote)
+        {
+            //reveal all phrases
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                cur.PV.RPC(nameof(cur.revealPhrase), RpcTarget.AllBuffered);
+            }
+
+            //restart buttons
+            foreach (PlayerController cur in GameManager.Instance.allPlayers)
+            {
+                cur.PV.RPC(nameof(cur.restart), RpcTarget.AllBuffered);
+            }
+
+            //message
+            PV.RPC(nameof(message), RpcTarget.AllBuffered, "Restart?", false);
+        }
+    } 
 
     public IEnumerator CountDown()
     {

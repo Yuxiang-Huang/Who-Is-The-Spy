@@ -374,12 +374,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    public void revealPhrase()
-    {
-        displayPhrase.gameObject.SetActive(true);
-    }
-
     #endregion
 
     #region First Voting Process
@@ -558,6 +552,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
         GameObject cur = Instantiate(votingItem, votingList);
         cur.GetComponent<TextMeshProUGUI>().text = voter;
     }
+    #endregion
+
+    #region Guess Word
+
+    public void guessWord()
+    {
+        PV.RPC(nameof(guess_RPC), RpcTarget.AllBuffered);
+        GameManager.Instance.checkGuessWord();
+    }
+
+    [PunRPC]
+    void guess_RPC()
+    {
+        GameManager.Instance.numOfGuessed++;
+    }
+
+    [PunRPC]
+    public void revealPhrase()
+    {
+        displayPhrase.gameObject.SetActive(true);
+    }
+
     #endregion
 
     #region restart
