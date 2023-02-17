@@ -570,13 +570,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void startGuessWord()
     {
+        //observer not able to guess word
+        if (PV.Owner == GameManager.Instance.observer) return;
+
         guessWordScreen.SetActive(true);
     }
 
     public void guessWord()
     {
         guessWordScreen.SetActive(false);
-        PV.RPC(nameof(guess_RPC), RpcTarget.AllBuffered, "Guessed" + guessWordInput.text);
+        PV.RPC(nameof(guess_RPC), RpcTarget.AllBuffered, "Guessed " + guessWordInput.text);
         GameManager.Instance.checkGuessWord();
     }
 
@@ -584,7 +587,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void guess_RPC(string guessedWord)
     {
         displayGuessWord.text = guessedWord;
-        displayGuessWord.gameObject.SetActive(true);
         GameManager.Instance.numOfGuessed++;
     }
 
@@ -592,6 +594,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void revealPhrase()
     {
         displayPhrase.gameObject.SetActive(true);
+
+        //observer not suppose to display guess word
+        if (PV.Owner == GameManager.Instance.observer) return;
+
+        displayGuessWord.gameObject.SetActive(true);
     }
 
     #endregion
