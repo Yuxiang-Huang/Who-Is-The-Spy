@@ -170,6 +170,9 @@ ScriptsOnlyBuild:
     fullTypeName: PlayerController
     methodName: customWord
   - assembly: Assembly-CSharp
+    fullTypeName: PlayerController
+    methodName: guessWord
+  - assembly: Assembly-CSharp
     fullTypeName: GameManager
     methodName: LeaveRoom
   sceneClasses:
@@ -670,7 +673,7 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
-      Hash: 3dcd2e3ea31a6e3953f1eacdf70842ab
+      Hash: 80e7512c84dd9b6b97380d94d6502639
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1042,7 +1045,7 @@ ScriptsOnlyBuild:
     className: PhotonTeamsManager
   - hash:
       serializedVersion: 2
-      Hash: 81aaa96b005b389658eeb46084cbaa36
+      Hash: 4c416b9779ee581df23211cc0aa9e75f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1050,4 +1053,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/Lobby.unity
   - Assets/Scenes/Game.unity
-  playerPath: /Users/yuxianghuang/Who-Is-The-Spy-Builds/Version8
+  playerPath: /Users/yuxianghuang/Who-Is-The-Spy-Builds/Version9

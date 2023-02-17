@@ -4246,14 +4246,14 @@ struct LayoutCache_tF844B2FAD6933B78FD5EFEBDE0529BCBAC19BA60  : public RuntimeOb
 	GUILayoutGroup_tD08496E80F283C290B5B90D7BFB3C9C7CC33CD8D* ___windows_3;
 };
 
-// GameManager/<CountDown>d__29
-struct U3CCountDownU3Ed__29_t19F71B759948B25720FD4B34A257B375003842ED  : public RuntimeObject
+// GameManager/<CountDown>d__31
+struct U3CCountDownU3Ed__31_t1C692D9E273CE05DDDC00748B7508655403A6CF7  : public RuntimeObject
 {
-	// System.Int32 GameManager/<CountDown>d__29::<>1__state
+	// System.Int32 GameManager/<CountDown>d__31::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object GameManager/<CountDown>d__29::<>2__current
+	// System.Object GameManager/<CountDown>d__31::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
-	// GameManager GameManager/<CountDown>d__29::<>4__this
+	// GameManager GameManager/<CountDown>d__31::<>4__this
 	GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6* ___U3CU3E4__this_2;
 };
 
@@ -16402,6 +16402,8 @@ struct GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6  : public MonoBehav
 	Player_tC864A64FC55FA6E30EFD6B6FF314C9725DDA363C* ___observer_18;
 	// System.Boolean GameManager::superNoun
 	bool ___superNoun_19;
+	// System.Int32 GameManager::numOfGuessed
+	int32_t ___numOfGuessed_20;
 };
 
 // UnityEngine.UI.GraphicRaycaster
@@ -16631,74 +16633,76 @@ struct PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95  : public Mono
 {
 	// Photon.Pun.PhotonView PlayerController::PV
 	PhotonView_t43F3D22FF3D00F7824E82D741D70F9CB55642E6B* ___PV_5;
-	// System.Boolean PlayerController::ready
-	bool ___ready_6;
 	// UnityEngine.UI.Button PlayerController::readyBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___readyBtn_7;
-	// TMPro.TextMeshProUGUI PlayerController::readyText
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___readyText_8;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___readyBtn_6;
 	// TMPro.TextMeshProUGUI PlayerController::readyTextAll
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___readyTextAll_9;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___readyTextAll_7;
 	// UnityEngine.GameObject PlayerController::modeScreen
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___modeScreen_10;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___modeScreen_8;
 	// UnityEngine.GameObject PlayerController::passModeChooserBtn
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___passModeChooserBtn_11;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___passModeChooserBtn_9;
 	// UnityEngine.GameObject PlayerController::passModeChooser
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___passModeChooser_12;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___passModeChooser_10;
 	// TMPro.TextMeshProUGUI PlayerController::passModeChooserText
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___passModeChooserText_13;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___passModeChooserText_11;
 	// UnityEngine.GameObject PlayerController::screenCustomOrRandom
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenCustomOrRandom_14;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenCustomOrRandom_12;
 	// UnityEngine.GameObject PlayerController::normalWord
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___normalWord_15;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___normalWord_13;
 	// TMPro.TMP_InputField PlayerController::normalWordInput
-	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___normalWordInput_16;
+	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___normalWordInput_14;
 	// UnityEngine.GameObject PlayerController::spyWord
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___spyWord_17;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___spyWord_15;
 	// TMPro.TMP_InputField PlayerController::spyWordInput
-	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___spyWordInput_18;
+	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___spyWordInput_16;
 	// UnityEngine.GameObject PlayerController::screenCustomInput
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenCustomInput_19;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenCustomInput_17;
 	// UnityEngine.GameObject PlayerController::screenInOutGame
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenInOutGame_20;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___screenInOutGame_18;
 	// TMPro.TextMeshProUGUI PlayerController::superNounText
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___superNounText_21;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___superNounText_19;
 	// System.Int32 PlayerController::mode
-	int32_t ___mode_22;
+	int32_t ___mode_20;
 	// UnityEngine.UI.Button PlayerController::votingBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___votingBtn_23;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___votingBtn_21;
 	// UnityEngine.UI.Button PlayerController::agreeBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___agreeBtn_24;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___agreeBtn_22;
 	// UnityEngine.UI.Button PlayerController::disagreeBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___disagreeBtn_25;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___disagreeBtn_23;
 	// UnityEngine.UI.RawImage PlayerController::agreeImage
-	RawImage_tFF12F7DB574FBDC1863CF607C7A12A5D9F8D6179* ___agreeImage_26;
+	RawImage_tFF12F7DB574FBDC1863CF607C7A12A5D9F8D6179* ___agreeImage_24;
 	// UnityEngine.UI.RawImage PlayerController::disagreeImage
-	RawImage_tFF12F7DB574FBDC1863CF607C7A12A5D9F8D6179* ___disagreeImage_27;
+	RawImage_tFF12F7DB574FBDC1863CF607C7A12A5D9F8D6179* ___disagreeImage_25;
 	// UnityEngine.UI.Button PlayerController::voteMeBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___voteMeBtn_28;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___voteMeBtn_26;
 	// TMPro.TextMeshProUGUI PlayerController::voteMeBtnText
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___voteMeBtnText_29;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___voteMeBtnText_27;
 	// UnityEngine.Transform PlayerController::votingList
-	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___votingList_30;
+	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___votingList_28;
 	// UnityEngine.GameObject PlayerController::votingItem
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___votingItem_31;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___votingItem_29;
 	// TMPro.TextMeshProUGUI PlayerController::playerName
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___playerName_32;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___playerName_30;
 	// TMPro.TextMeshProUGUI PlayerController::displayPhrase
-	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___displayPhrase_33;
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___displayPhrase_31;
 	// UnityEngine.UI.Button PlayerController::restartBtn
-	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___restartBtn_34;
+	Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* ___restartBtn_32;
 	// UnityEngine.GameObject PlayerController::viewVotesButton
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___viewVotesButton_35;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___viewVotesButton_33;
 	// UnityEngine.GameObject PlayerController::backtoGameScreenButton
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___backtoGameScreenButton_36;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___backtoGameScreenButton_34;
 	// UnityEngine.GameObject PlayerController::gameScreen
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___gameScreen_37;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___gameScreen_35;
 	// UnityEngine.GameObject PlayerController::voteResultScreen
-	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___voteResultScreen_38;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___voteResultScreen_36;
 	// UnityEngine.Transform PlayerController::votingListResult
-	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___votingListResult_39;
+	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___votingListResult_37;
+	// UnityEngine.GameObject PlayerController::guessWordScreen
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___guessWordScreen_38;
+	// TMPro.TextMeshProUGUI PlayerController::displayGuessWord
+	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___displayGuessWord_39;
+	// TMPro.TMP_InputField PlayerController::guessWordInput
+	TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* ___guessWordInput_40;
 };
 
 // PlayerListItem
@@ -19828,9 +19832,9 @@ struct Number_t006CBC9914386BB171582F4C3A3EEB2EE404D461_StaticFields
 
 // UnityEngine.GUILayoutUtility/LayoutCache
 
-// GameManager/<CountDown>d__29
+// GameManager/<CountDown>d__31
 
-// GameManager/<CountDown>d__29
+// GameManager/<CountDown>d__31
 
 // UnityEngine.UI.GraphicRaycaster/<>c
 struct U3CU3Ec_tFE23038B63E5E9EDD95FF07844C136230AED9FFC_StaticFields
@@ -26491,10 +26495,10 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4437[24] =
 	static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___keyboardOnScreen_0)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___controlID_1)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___style_2)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___multiline_3)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___hasHorizontalCursorPos_4)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___isPasswordField_5)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_HasFocus_6)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___scrollOffset_7)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_Content_8)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_Position_9)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_CursorIndex_10)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_SelectIndex_11)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_RevealCursor_12)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___graphicalCursorPos_13)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___graphicalSelectCursorPos_14)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_MouseDragSelectsWholeWords_15)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_DblClickInitPos_16)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_DblClickSnap_17)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_bJustSelected_18)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___m_iAltCursorPos_19)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___oldText_20)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___oldPos_21)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27, ___oldSelectPos_22)),static_cast<int32_t>(offsetof(TextEditor_t45128DFCB4C388BF7B8153693C9342D5D2358B27_StaticFields, ___s_Keyactions_23)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4440[3] = 
 {
-	static_cast<int32_t>(offsetof(U3CCountDownU3Ed__29_t19F71B759948B25720FD4B34A257B375003842ED, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CCountDownU3Ed__29_t19F71B759948B25720FD4B34A257B375003842ED, ___U3CU3E2__current_1)),static_cast<int32_t>(offsetof(U3CCountDownU3Ed__29_t19F71B759948B25720FD4B34A257B375003842ED, ___U3CU3E4__this_2)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4441[15] = 
+	static_cast<int32_t>(offsetof(U3CCountDownU3Ed__31_t1C692D9E273CE05DDDC00748B7508655403A6CF7, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CCountDownU3Ed__31_t1C692D9E273CE05DDDC00748B7508655403A6CF7, ___U3CU3E2__current_1)),static_cast<int32_t>(offsetof(U3CCountDownU3Ed__31_t1C692D9E273CE05DDDC00748B7508655403A6CF7, ___U3CU3E4__this_2)),};
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4441[16] = 
 {
-	static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___PV_5)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6_StaticFields, ___Instance_6)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___messageText_7)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___allPlayers_8)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___allPhrases_9)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___superNouns_10)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___numPlayerReady_11)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___agreeVotes_12)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___disagreeVotes_13)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___spy_14)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___spyVotes_15)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___curCoroutine_16)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___modeChooser_17)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___observer_18)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___superNoun_19)),};
+	static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___PV_5)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6_StaticFields, ___Instance_6)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___messageText_7)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___allPlayers_8)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___allPhrases_9)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___superNouns_10)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___numPlayerReady_11)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___agreeVotes_12)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___disagreeVotes_13)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___spy_14)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___spyVotes_15)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___curCoroutine_16)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___modeChooser_17)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___observer_18)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___superNoun_19)),static_cast<int32_t>(offsetof(GameManager_tFE129A0017AF5BBD30FDCD4403B9CCEAE064C6B6, ___numOfGuessed_20)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4442[10] = 
 {
 	static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB_StaticFields, ___Instance_5)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomNameInput_6)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___errorText_7)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomNameText_8)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomListContent_9)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___roomListPrefab_10)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___playerListContent_11)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___playerListPrefab_12)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB, ___startGameButton_13)),static_cast<int32_t>(offsetof(NetworkManager_t34FC479255EC74DE917E6E400B1430EBE2CCA7CB_StaticFields, ___fullRoomList_14)),};
@@ -26504,9 +26508,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4443[2] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4444[2] = 
 {
 	static_cast<int32_t>(offsetof(U3CdelayNoVoteClearU3Ed__64_tF037E3EBD7173ADF33E66E91D046DDA4C84811E9, ___U3CU3E1__state_0)),static_cast<int32_t>(offsetof(U3CdelayNoVoteClearU3Ed__64_tF037E3EBD7173ADF33E66E91D046DDA4C84811E9, ___U3CU3E2__current_1)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4445[35] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4445[36] = 
 {
-	static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___PV_5)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___ready_6)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___readyBtn_7)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___readyText_8)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___readyTextAll_9)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___modeScreen_10)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooserBtn_11)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooser_12)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooserText_13)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenCustomOrRandom_14)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___normalWord_15)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___normalWordInput_16)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___spyWord_17)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___spyWordInput_18)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenCustomInput_19)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenInOutGame_20)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___superNounText_21)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___mode_22)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingBtn_23)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___agreeBtn_24)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___disagreeBtn_25)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___agreeImage_26)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___disagreeImage_27)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteMeBtn_28)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteMeBtnText_29)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingList_30)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingItem_31)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___playerName_32)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___displayPhrase_33)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___restartBtn_34)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___viewVotesButton_35)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___backtoGameScreenButton_36)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___gameScreen_37)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteResultScreen_38)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingListResult_39)),};
+	static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___PV_5)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___readyBtn_6)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___readyTextAll_7)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___modeScreen_8)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooserBtn_9)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooser_10)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___passModeChooserText_11)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenCustomOrRandom_12)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___normalWord_13)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___normalWordInput_14)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___spyWord_15)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___spyWordInput_16)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenCustomInput_17)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___screenInOutGame_18)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___superNounText_19)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___mode_20)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingBtn_21)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___agreeBtn_22)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___disagreeBtn_23)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___agreeImage_24)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___disagreeImage_25)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteMeBtn_26)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteMeBtnText_27)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingList_28)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingItem_29)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___playerName_30)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___displayPhrase_31)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___restartBtn_32)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___viewVotesButton_33)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___backtoGameScreenButton_34)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___gameScreen_35)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___voteResultScreen_36)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___votingListResult_37)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___guessWordScreen_38)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___displayGuessWord_39)),static_cast<int32_t>(offsetof(PlayerController_t7E8D7042FA2D0DFEC54A1FCDF395161D88DAAE95, ___guessWordInput_40)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable4446[2] = 
 {
 	static_cast<int32_t>(offsetof(PlayerListItem_tCDBB915AE247EE77BB4E3182D98A7B88BB439643, ___text_5)),static_cast<int32_t>(offsetof(PlayerListItem_tCDBB915AE247EE77BB4E3182D98A7B88BB439643, ___player_6)),};
