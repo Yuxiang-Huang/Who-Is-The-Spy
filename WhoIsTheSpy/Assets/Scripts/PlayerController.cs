@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public GameObject viewVotesButton;
     public GameObject gameScreen;
     public GameObject voteResultScreen;
+    [SerializeField] Transform votingListResult;
 
     void Awake()
     {
@@ -73,18 +74,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
             PV.RPC(nameof(updateName), RpcTarget.AllBuffered, PhotonNetwork.NickName);
         }
         //everything off first
-        votingBtn.gameObject.SetActive(false);
-        displayPhrase.gameObject.SetActive(false);
-        readyTextAll.gameObject.SetActive(false);
+        //votingBtn.gameObject.SetActive(false);
+        //displayPhrase.gameObject.SetActive(false);
+        //readyTextAll.gameObject.SetActive(false);
 
-        modeScreen.SetActive(false);
-        screenCustomOrRandom.SetActive(false);
-        screenCustomInput.SetActive(false);
-        normalWord.SetActive(false);
-        spyWord.SetActive(false);
-        screenInOutGame.SetActive(false);
-        passModeChooser.SetActive(false);
-        passModeChooserBtn.SetActive(false);
+        //modeScreen.SetActive(false);
+        //screenCustomOrRandom.SetActive(false);
+        //screenCustomInput.SetActive(false);
+        //normalWord.SetActive(false);
+        //spyWord.SetActive(false);
+        //screenInOutGame.SetActive(false);
+        //passModeChooser.SetActive(false);
+        //passModeChooserBtn.SetActive(false);
+        updatePhrase("", "", false);
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
@@ -99,15 +101,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
             readyTextAll.gameObject.SetActive(true);
         }
 
-        //restart button only visible to masterclient
-        if (PhotonNetwork.IsMasterClient && PV.IsMine)
-        {
-            restartBtn.gameObject.SetActive(true);
-        }
-        else
-        {
-            restartBtn.gameObject.SetActive(false);
-        }
+        ////restart button only visible to masterclient
+        //if (PhotonNetwork.IsMasterClient && PV.IsMine)
+        //{
+        //    restartBtn.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    restartBtn.gameObject.SetActive(false);
+        //}
     }
 
     #region readyPhase
