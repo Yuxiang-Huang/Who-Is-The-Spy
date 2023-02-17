@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [Header("Vote Result")]
     public GameObject viewVotesButton;
+    public GameObject backtoGameScreenButton;
     public GameObject gameScreen;
     public GameObject voteResultScreen;
     [SerializeField] Transform votingListResult;
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         GameManager.Instance.allPlayers.Add(this); //keep track of all players
 
-        //ready button visible if owner and readyTextAll only shown if not owner
+        //ready button visible if owner and readyTextAll only shown if not owner 
         if (PV.IsMine)
         {
             readyBtn.gameObject.SetActive(true);
@@ -87,6 +88,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             readyBtn.gameObject.SetActive(false);
             readyTextAll.gameObject.SetActive(true);
+
+            //back button off for non owner
+            backtoGameScreenButton.SetActive(false);
         }
     }
 

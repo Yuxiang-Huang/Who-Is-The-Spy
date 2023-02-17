@@ -754,6 +754,7 @@ MonoBehaviour:
   displayPhrase: {fileID: 3803182633457281029}
   restartBtn: {fileID: 4905629594477762045}
   viewVotesButton: {fileID: 3110666111357040595}
+  backtoGameScreenButton: {fileID: 254553113155047422}
   gameScreen: {fileID: 8631526648688047899}
   voteResultScreen: {fileID: 5180215764508398596}
   votingListResult: {fileID: 808915829996215706}
