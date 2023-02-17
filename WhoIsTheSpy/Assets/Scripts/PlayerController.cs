@@ -565,11 +565,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     void castVoteSpy(Photon.Realtime.Player votedPlayer, string voter)
     {
-        //weird error
-        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer) return;
-
         //vote
-        GameManager.Instance.spyVotes[votedPlayer]++;
+        if (GameManager.Instance.spyVotes != null && GameManager.Instance.spyVotes.ContainsKey(votedPlayer))
+        {
+            GameManager.Instance.spyVotes[votedPlayer]++;
+        }
 
         //UI
         GameObject cur = Instantiate(votingItem, votingList);

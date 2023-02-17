@@ -122,7 +122,6 @@ public class NetworkManager: MonoBehaviourPunCallbacks
         for (int i = 0; i < roomList.Count; i++)
         {
             RoomInfo info = roomList[i];
-            Debug.Log(info.Name + ": " + info.RemovedFromList);
 
             if (info.RemovedFromList)
             {
