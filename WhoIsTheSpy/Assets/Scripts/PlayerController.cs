@@ -581,6 +581,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void voteSpyReset(bool tied)
     {
+        //clear voting list result
+        foreach (Transform transform in votingListResult)
+        {
+            Destroy(transform.gameObject);
+        }
+
         //transfer votes
         foreach (Transform transform in votingList)
         {
@@ -627,14 +633,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void viewVoteResult()
     {
-        gameScreen.SetActive(false);
-        voteResultScreen.SetActive(true);
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.gameScreen.SetActive(false);
+            cur.voteResultScreen.SetActive(true);
+        }
     }
 
     public void backtoGameScreen()
     {
-        voteResultScreen.SetActive(false);
-        gameScreen.SetActive(true);
+        foreach (PlayerController cur in GameManager.Instance.allPlayers)
+        {
+            cur.voteResultScreen.SetActive(false);
+            cur.gameScreen.SetActive(true);
+        }
     }
 
     #endregion

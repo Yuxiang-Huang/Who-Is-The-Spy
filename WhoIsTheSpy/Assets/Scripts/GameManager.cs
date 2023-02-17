@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void startMode()
     {
-        observer = null;
+        PV.RPC(nameof(resetObserver), RpcTarget.AllBuffered);
 
         //clear things from last game
         PV.RPC(nameof(restart), RpcTarget.AllBuffered);
@@ -91,6 +91,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         PV.RPC(nameof(message), RpcTarget.AllBuffered, GameManager.Instance.modeChooser.NickName + " is choosing mode!", true);
+    }
+
+    [PunRPC]
+    void resetObserver()
+    {
+        observer = null;
     }
 
     #region mode
@@ -286,10 +292,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             //reset votes in both cases
             foreach (PlayerController cur in GameManager.Instance.allPlayers)
             {
-                if (cur.PV.Owner != observer)
-                {
-                    cur.PV.RPC(nameof(cur.voteSpyReset), RpcTarget.AllBuffered, tie);
-                }
+                cur.PV.RPC(nameof(cur.voteSpyReset), RpcTarget.AllBuffered, tie);
             }
 
             //tied scenario
