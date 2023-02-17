@@ -288,7 +288,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 if (cur.PV.Owner != observer)
                 {
-                    cur.PV.RPC(nameof(cur.voteSpyReset), RpcTarget.AllBuffered);
+                    cur.PV.RPC(nameof(cur.voteSpyReset), RpcTarget.AllBuffered, tie);
                 }
             }
 

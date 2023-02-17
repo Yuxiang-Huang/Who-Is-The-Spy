@@ -350,8 +350,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             displayPhrase.text = normalPhrase;
         }
 
-        //observer can see all words
-        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer)
+        //observer or player self can see word
+        if (PhotonNetwork.LocalPlayer == GameManager.Instance.observer || PhotonNetwork.LocalPlayer == PV.Owner)
         {
             displayPhrase.gameObject.SetActive(true);
         }
@@ -579,23 +579,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void voteSpyReset(bool gameEnded)
+    public void voteSpyReset(bool tied)
     {
         //transfer votes
         foreach (Transform transform in votingList)
         {
-            GameObject cur = Instantiate(votingItem, votingList);
-            cur.GetComponent<TextMeshProUGUI>().text = transform.GetComponent<Text>().text;
+            GameObject cur = Instantiate(votingItem, votingListResult);
+            cur.GetComponent<TextMeshProUGUI>().text = transform.GetComponent<TextMeshProUGUI>().text;
 
             Destroy(transform.gameObject);
         }
 
         if (PV.IsMine)
         {
-            votingBtn.gameObject.SetActive(!gameEnded);
+            viewVotesButton.SetActive(true);
+            votingBtn.gameObject.SetActive(tied);
         }
-
-        viewVotesButton.SetActive(true);
     }
 
     [PunRPC]
