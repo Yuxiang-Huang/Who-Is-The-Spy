@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public TextMeshProUGUI displayPhrase;
     public Button restartBtn;
 
+    [Header("Vote Result")]
+    public GameObject viewVotesButton;
+    public GameObject gameScreen;
+    public GameObject voteResultScreen;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -379,16 +384,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RevealVotingBtn()
     {
-        //voting button and phrase are only shown if owner
+        //voting button only shown if owner
         if (PV.IsMine)
         {
             votingBtn.gameObject.SetActive(true);
-            displayPhrase.gameObject.SetActive(true);
         }
         else
         {
             votingBtn.gameObject.SetActive(false);
-            displayPhrase.gameObject.SetActive(false);
         }
     }
 
@@ -470,8 +473,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     #region clear
     public IEnumerator delayVoteClear()
     {
-        displayPhrase.gameObject.SetActive(false);
-
         yield return new WaitForSeconds(1.5f);
 
         //ask all players to clear
@@ -599,7 +600,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (PV.IsMine)
         {
             votingBtn.gameObject.SetActive(true);
-            displayPhrase.gameObject.SetActive(true);
         }
     }
 
@@ -625,6 +625,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void forceRestart()
     {
         GameManager.Instance.forceRestart();
+    }
+
+    #endregion
+
+    #region Voting Result
+
+    public void viewVoteResult()
+    {
+        gameScreen.SetActive(false);
+        voteResultScreen.SetActive(true);
+    }
+
+    public void backtoGameScreen()
+    {
+        voteResultScreen.SetActive(false);
+        gameScreen.SetActive(true);
     }
 
     #endregion

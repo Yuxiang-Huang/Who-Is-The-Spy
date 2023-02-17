@@ -7,6 +7,7 @@ using System;
 using Random = UnityEngine.Random;
 using Photon.Realtime;
 using System.Runtime.ConstrainedExecution;
+using static UnityEngine.Networking.UnityWebRequest;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -93,7 +94,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     #region mode
-
     
     public void updateSuperNoun()
     {
@@ -196,6 +196,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Check Votes
+
     public void checkVotes1()
     {
         int totalVote = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -283,6 +285,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (tie)
             {
+                PV.RPC(nameof(message), RpcTarget.AllBuffered, "Votes Tied!", true);
+
                 //reset
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
@@ -330,6 +334,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         messageText.text = "";
     }
+
+    #endregion
+
 
     [PunRPC]
     void message(string text, bool countDown)
