@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 //start guess word
                 foreach (PlayerController cur in GameManager.Instance.allPlayers)
                 {
-                    cur.PV.RPC(nameof(cur.guessWord), RpcTarget.AllBuffered);
+                    cur.PV.RPC(nameof(cur.startGuessWord), RpcTarget.AllBuffered);
                 }
 
                 //message

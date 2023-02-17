@@ -81,6 +81,8 @@ MonoBehaviour:
   - updateSuperNoun_RPC
   - voteSpyReset
   - resetObserver
+  - guess_RPC
+  - startGuessWord
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

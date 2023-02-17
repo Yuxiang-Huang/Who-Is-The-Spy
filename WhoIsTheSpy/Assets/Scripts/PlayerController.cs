@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public GameObject voteResultScreen;
     [SerializeField] Transform votingListResult;
 
+    [Header("Vote Result")]
+    public GameObject guessWordScreen;
+    public TextMeshProUGUI displayGuessWord;
+    public TMP_InputField guessWordInput;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -317,6 +322,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         readyTextAll.gameObject.SetActive(false);
 
+        //guess word 
+        guessWordScreen.SetActive(false);
+        displayGuessWord.gameObject.SetActive(false);
+
         //mode
         modeScreen.SetActive(false);
         screenCustomOrRandom.SetActive(false);
@@ -337,10 +346,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (isSpy)
         {
             displayPhrase.text = spyPhrase;
+            guessWordInput.text = spyPhrase;
         }
         else
         {
             displayPhrase.text = normalPhrase;
+            guessWordInput.text = normalPhrase;
         }
 
         //observer or player self can see word
@@ -556,15 +567,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     #region Guess Word
 
+    [PunRPC]
+    public void startGuessWord()
+    {
+        guessWordScreen.SetActive(true);
+    }
+
     public void guessWord()
     {
-        PV.RPC(nameof(guess_RPC), RpcTarget.AllBuffered);
+        guessWordScreen.SetActive(false);
+        PV.RPC(nameof(guess_RPC), RpcTarget.AllBuffered, "Guessed" + guessWordInput.text);
         GameManager.Instance.checkGuessWord();
     }
 
     [PunRPC]
-    void guess_RPC()
+    void guess_RPC(string guessedWord)
     {
+        displayGuessWord.text = guessedWord;
+        displayGuessWord.gameObject.SetActive(true);
         GameManager.Instance.numOfGuessed++;
     }
 
